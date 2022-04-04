@@ -6,4 +6,4 @@
 
 ## TODO
 
-- [] 添加 splash screen
+- [] 修改 splash screen 图片
