@@ -10,6 +10,10 @@ class ShoppingPage extends StatefulWidget {
 class _ShoppingPageState extends State<ShoppingPage> {
   @override
   Widget build(BuildContext context) {
-    return Text("商店");
+    return Scaffold(
+      body: Center(
+        child: Text("商店"),
+      ),
+    );
   }
 }

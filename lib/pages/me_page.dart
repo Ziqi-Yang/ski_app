@@ -10,6 +10,10 @@ class MePage extends StatefulWidget {
 class _MePageState extends State<MePage> {
   @override
   Widget build(BuildContext context) {
-    return Text("我的");
+    return Scaffold(
+      body: Center(
+        child: Text("我的"),
+      ),
+    );
   }
 }

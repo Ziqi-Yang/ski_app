@@ -10,6 +10,10 @@ class CommunityPage extends StatefulWidget {
 class _CommunityPageState extends State<CommunityPage> {
   @override
   Widget build(BuildContext context) {
-    return Text("社区");
+    return Scaffold(
+      body: Center(
+        child: Text("动态"),
+      ),
+    );
   }
 }

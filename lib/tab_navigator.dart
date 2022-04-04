@@ -22,7 +22,11 @@ class _TabNavigatorState extends State<TabNavigator> {
     return Scaffold(
       body: PageView(
         controller: pageController,
-        onPageChanged: changeIndex,
+        onPageChanged: (index){
+          setState(() {
+            _currentIndex = index;
+          });
+        },
         children: const [
           HomePage(),
           CommunityPage(),
@@ -33,7 +37,12 @@ class _TabNavigatorState extends State<TabNavigator> {
       bottomNavigationBar: BottomNavigationBar(
         // type: BottomNavigationBarType.fixed, // 文字固定显示
         currentIndex: _currentIndex,
-        onTap: changeIndex,
+        onTap: (index){
+          setState(() {
+            pageController.jumpToPage(index);
+            _currentIndex = index;
+          });
+        },
         unselectedItemColor: _defaultColor,
         selectedItemColor: _activeColor,
         items: const [
@@ -58,9 +67,4 @@ class _TabNavigatorState extends State<TabNavigator> {
     );
   }
 
-  changeIndex(index){
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 }
