@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ski_app/widget/webview.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({Key? key}) : super(key: key);
@@ -8,12 +9,12 @@ class ShoppingPage extends StatefulWidget {
 }
 
 class _ShoppingPageState extends State<ShoppingPage> {
+  final url = "https://shop.m.jd.com/?shopId=11659313&utm_user=plusmember&gx=RnEwyzYMYTfcntRP--sMBAX3ja-AigWkfoc&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("商店"),
-      ),
+      body: WebViewWidget(url: url)
     );
   }
 }

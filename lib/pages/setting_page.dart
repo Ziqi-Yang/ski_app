@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ski_app/common.dart' show MyColors;
 import 'package:ski_app/dao/setting_dao.dart';
 import 'package:ski_app/model/setting_model.dart';
+import 'package:ski_app/widget/setting_card.dart';
 
 class MePage extends StatefulWidget {
   const MePage({Key? key}) : super(key: key);
@@ -37,17 +39,13 @@ class _MePageState extends State<MePage> {
     return Scaffold(
       body: Container(
           decoration: const BoxDecoration(
-            // color: Color(0xffF5F5F5),
-              gradient: LinearGradient(
-                  colors: [Color(0xffffffff),Color(0xffF5F5F5)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter
-              )
+            color: MyColors.lightGrey,
           ),
           child: Column(
             children: [
               if (settingModel != null)
                 _simpleProfile(settingModel!),
+              _Settings(context)
             ],
           ),
         )
@@ -61,7 +59,7 @@ class _MePageState extends State<MePage> {
       child: Container(
         height: 350,
         decoration: const BoxDecoration(
-            color: Colors.blueAccent
+            color: MyColors.blueAccent
         ),
         child: Column(
           children: [
@@ -141,7 +139,7 @@ class _MePageState extends State<MePage> {
         children: [
           Text(
               hasError ? "0" : num.toString(),
-            style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w400),
+            style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
           ),
           Text(
             title.toString(),
@@ -150,5 +148,29 @@ class _MePageState extends State<MePage> {
         ],
       ),
     );
+  }
+
+  _gestureWrap(BuildContext context, void Function()? onTapFunc, Widget child){
+    return GestureDetector(
+      onTap: onTapFunc,
+      child: child,
+    );
+  }
+
+  _Settings(BuildContext context, ){
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: SettingCard(icon: Icons.downhill_skiing, title: "通用", childs: _general(context))
+    );
+  }
+
+  _general(BuildContext context) {
+    return <Widget>[
+      ListTile(
+        leading: const Icon(Icons.history),
+        title: Text("历史数据", style: Theme.of(context).textTheme.bodyText1,),
+        onTap: (){},
+      )
+    ];
   }
 }
