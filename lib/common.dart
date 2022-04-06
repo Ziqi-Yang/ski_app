@@ -6,6 +6,9 @@ class Api{
   // setting
   static const settingPrefix = home + "setting/";
   static const settingNullUser = settingPrefix + "null";
+
+  static const historyGeneral = home + "history/general/";
+  static const historyGeneralNullUser = historyGeneral + "null/1";
 }
 
 class MyColors {

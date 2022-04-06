@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ski_app/common.dart' show MyColors;
+import 'package:ski_app/dao/history_general_dao.dart';
+import 'package:ski_app/model/history_general_model.dart';
 
 class HistoryPage extends StatefulWidget {
   final bool showAppBar;
@@ -12,6 +14,19 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   ScrollController _controller = ScrollController();
+  HistoryGeneralModel? historyGeneralModel;
+
+
+  Future<void> _RefreshData() async{
+    HistoryGeneralDao.fetch().then((value){
+      setState(() {
+        historyGeneralModel = value;
+      });
+    }).catchError((e){
+      print(e);
+    });
+  }
+
 
   @override
   void initState() {
@@ -20,9 +35,10 @@ class _HistoryPageState extends State<HistoryPage> {
       int offset = _controller.position.pixels.toInt();
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         print("滑动到底部");
-        // FIXME 添加刷新列表操作 (可以考虑不需要这个_controller,毕竟只需要上拉刷新)
+        // FIXME 添加刷新列表操作
       }
     });
+    _RefreshData();
   }
 
   @override
@@ -59,6 +75,12 @@ class _HistoryPageState extends State<HistoryPage> {
               ],
               floating: true,
             ): const SliverAppBar(backgroundColor: Colors.transparent,),
+            if (historyGeneralModel != null)
+              SliverToBoxAdapter(
+                child: Container(
+                  child: Text(historyGeneralModel!.next.toString()),
+                )
+              ),
             SliverList(
               // Use a delegate to build items as they're scrolled on screen.
               delegate: SliverChildBuilderDelegate(

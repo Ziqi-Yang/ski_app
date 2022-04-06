@@ -12,9 +12,12 @@ class MePage extends StatefulWidget {
   @override
   State<MePage> createState() => _MePageState();
 }
-
-class _MePageState extends State<MePage> {
+// 为了使得PageView可以缓存这个页面，添加 with AutoMaic..
+class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   SettingModel? settingModel;
+
+  @override
+  bool get wantKeepAlive => true;
 
   _loadData() async {
     SettingDao.fetch().then((value){
@@ -30,13 +33,12 @@ class _MePageState extends State<MePage> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _loadData();
-    });
+    _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
           decoration: const BoxDecoration(
@@ -178,4 +180,5 @@ class _MePageState extends State<MePage> {
       )
     ];
   }
+
 }
