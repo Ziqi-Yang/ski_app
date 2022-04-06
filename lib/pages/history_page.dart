@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:ski_app/common.dart' show MyColors;
 import 'package:ski_app/dao/history_general_dao.dart';
 import 'package:ski_app/model/history_general_model.dart';
+import 'package:ski_app/widget/common_widget.dart';
 
 class HistoryPage extends StatefulWidget {
   final bool showAppBar;
   final bool showBackButton;
-  const HistoryPage({Key? key, this.showAppBar = true, this.showBackButton = false}) : super(key: key);
+  final String userId;
+  final String customTitle;
+  const HistoryPage({Key? key, this.showAppBar = true, this.showBackButton = false,
+    this.userId = "null", this.customTitle = "历史记录"}) : super(key: key);
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  ScrollController _controller = ScrollController();
-  HistoryGeneralModel? historyGeneralModel;
+  final ScrollController _controller = ScrollController();
+  // HistoryGeneralModel? historyGeneralModel;
+  bool shouldGetHistory = true;
+  int historyNextPage = 1;
 
+  // 应该实现一个双向列表
+  List historyDates = [];
+  List historyDatas = []; // 数据和 historyDates 对应
 
-  Future<void> _RefreshData() async{
-    HistoryGeneralDao.fetch().then((value){
-      setState(() {
-        historyGeneralModel = value;
-      });
+  Future<void> _getOlderData() async{
+    // NOTICE 获取旧的数据，适合向下拉
+    HistoryGeneralDao.fetch(widget.userId, historyNextPage).then((hisModel){
+      if (shouldGetHistory){
+        List tmpDates = hisModel.data.keys.toList();
+        setState(() {
+          historyDates.addAll(tmpDates);
+          for (String date in tmpDates){
+            print(date);
+            historyDatas.add(hisModel.data[date]);
+          }
+        });
+
+        if (hisModel.next != null){
+          historyNextPage = hisModel.next!;
+        } else {
+          shouldGetHistory = false;
+        }
+      }
     }).catchError((e){
       print(e);
     });
@@ -38,7 +60,7 @@ class _HistoryPageState extends State<HistoryPage> {
         // FIXME 添加刷新列表操作
       }
     });
-    _RefreshData();
+    _getOlderData();
   }
 
   @override
@@ -46,20 +68,19 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: (){
-          // FIXME 添加刷新列表操作
-          print(" on refresh!");
-          return Future.value(1);
+          // FIXME 这里的函数应该是重新获取全部数据(因为最新数据在上面)
+          return _getOlderData(); // must return a Future stuff, so return Future null or void
         },
         child: CustomScrollView(
           controller: _controller,
-          physics: const ScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(), // 任何时候都能刷新
           slivers: [
             widget.showAppBar ?
             SliverAppBar(
               centerTitle: true,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              title: Text("历史记录"),
+              title: Text(widget.customTitle),
               leading: !widget.showBackButton ? null : IconButton(onPressed: (){
                 Navigator.pop(context);
               }, icon: const Icon(Icons.arrow_back)),
@@ -74,29 +95,62 @@ class _HistoryPageState extends State<HistoryPage> {
                 })
               ],
               floating: true,
-            ): const SliverAppBar(backgroundColor: Colors.transparent,),
-            if (historyGeneralModel != null)
-              SliverToBoxAdapter(
-                child: Container(
-                  child: Text(historyGeneralModel!.next.toString()),
-                )
+            ): const SliverToBoxAdapter(child: SizedBox(height: 30,),),
+            if (historyDates != [])
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) => _expansionTileDay(context, historyDates[index], historyDatas[index]),
+                  // childCount: historyGeneralModel!.data.length,
+                  childCount: historyDates.length
+                ),
               ),
-            SliverList(
-              // Use a delegate to build items as they're scrolled on screen.
-              delegate: SliverChildBuilderDelegate(
-                // The builder function returns a ListTile with a title that
-                // displays the index of the current item.
-                    (context, index) => ListTile(title: Text('Item #$index')),
-                // Builds 100 ListTiles
-                childCount: 100,
-              ),
-            ),
           ],
         ),
       )
     );
   }
 
-  Future<void> _onRefresh() async {
+  _expansionTileDay(BuildContext context, String date, List<HistoryGeneralCommonItem> datas) {
+    List<Widget> items = [];
+    for (var data in datas){
+      items.add(
+          CommonWidget.gestureWrap(context, (){},
+            ListTile(
+              leading: const Icon(Icons.double_arrow),
+              title: RichText(
+                text: TextSpan(
+                  style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                  children: [
+                    TextSpan(text: "${data.score}", style: const TextStyle(color: Colors.orangeAccent)),
+                    const TextSpan(text: " 分", style: TextStyle(fontSize: 18))
+                  ]
+                ),
+              ),
+              subtitle: RichText(
+                text: TextSpan(
+                  style: const TextStyle(color: Colors.grey),
+                  children: [
+                    const WidgetSpan(child: Icon(Icons.schedule)),
+                    TextSpan(text: data.startTime),
+                    const TextSpan(text: "   "),
+
+                    const WidgetSpan(child: Icon(Icons.restore)),
+                    TextSpan(text: data.lastTime),
+                    const TextSpan(text: "   "),
+
+                    const WidgetSpan(child: Icon(Icons.bolt)),
+                    TextSpan(text: "${data.speed}"),
+                    const TextSpan(text: "   "),
+                  ]
+                ),
+              ),
+            )
+          ));
+    }
+    return ExpansionTile(
+      title: Text(date, style: const TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.w600),),
+      children: items,
+    );
   }
+
 }

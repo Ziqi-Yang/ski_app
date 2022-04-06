@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: HistoryPage(),
+      body: HistoryPage(customTitle: "滑雪",),
     );
   }
 

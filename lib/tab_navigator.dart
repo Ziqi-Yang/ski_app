@@ -52,7 +52,7 @@ class _TabNavigatorState extends State<TabNavigator> {
             label: "首页",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat,),
+            icon: Icon(Icons.forum,),
             label: "动态",
           ),
           BottomNavigationBarItem(

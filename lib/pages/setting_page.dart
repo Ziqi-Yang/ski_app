@@ -153,12 +153,6 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  _gestureWrap(BuildContext context, void Function()? onTapFunc, Widget child){
-    return GestureDetector(
-      onTap: onTapFunc,
-      child: child,
-    );
-  }
 
   _Settings(BuildContext context, ){
     return Padding(

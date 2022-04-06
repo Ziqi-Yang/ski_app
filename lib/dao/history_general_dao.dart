@@ -4,8 +4,8 @@ import 'package:ski_app/common.dart' show Api;
 import 'package:ski_app/model/history_general_model.dart';
 
 class HistoryGeneralDao{
-  static Future<HistoryGeneralModel> fetch() async {
-    var url = Uri.parse(Api.historyGeneralNullUser);
+  static Future<HistoryGeneralModel> fetch(String userId,int index) async {
+    var url = Uri.parse("${Api.historyGeneral}$userId/$index");
     final response = await http.get(url);
     if (response.statusCode == 200){
       Utf8Decoder utf8decoder = const Utf8Decoder();

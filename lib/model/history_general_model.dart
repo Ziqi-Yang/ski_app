@@ -1,17 +1,21 @@
 class HistoryGeneralModel {
-  final List data;
-  final int next;
+  /// data:
+  /// {"2022-4-6": [Instance of 'HistoryGeneralCommonItem',..., Instance of 'HistoryGeneralCommonItem'],
+  /// "2022-4-5": [Instance of 'HistoryGeneralCommonItem', ...]}
+
+  final Map data;
+  final int? next;
 
   HistoryGeneralModel({required this.data,required this.next});
 
   factory HistoryGeneralModel.fromJson(Map<String, dynamic> json){
-    var daysData = [];
+    Map<String, dynamic> daysData = {};
     for (var day in  json["data"].keys){
-      var dayData = [];
+      var dayData = <HistoryGeneralCommonItem>[];
       for (var d in json["data"][day]){
         dayData.add(HistoryGeneralCommonItem.fromList(d));
       }
-      daysData.add(dayData);
+      daysData[day] = dayData;
     }
     return HistoryGeneralModel(
         data: daysData,
