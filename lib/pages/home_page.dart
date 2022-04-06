@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ski_app/pages/history_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,9 +12,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("首页"),
-      ),
+      body: HistoryPage(),
     );
   }
 }

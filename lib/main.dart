@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
 
         // fontFamily: ""
         textTheme: const TextTheme(
-          bodyText1: TextStyle(fontSize: 16, color: Colors.black),
+          headline1: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+          headline2: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+
+          bodyText1: TextStyle(color: Colors.black, fontSize: 16),
         ),
       ),
       home: TabNavigator(),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ski_app/common.dart' show MyColors;
 import 'package:ski_app/dao/setting_dao.dart';
 import 'package:ski_app/model/setting_model.dart';
+import 'package:ski_app/pages/history_page.dart';
 import 'package:ski_app/widget/setting_card.dart';
 
 class MePage extends StatefulWidget {
@@ -169,7 +170,11 @@ class _MePageState extends State<MePage> {
       ListTile(
         leading: const Icon(Icons.history),
         title: Text("历史数据", style: Theme.of(context).textTheme.bodyText1,),
-        onTap: (){},
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return const HistoryPage(showBackButton: true,);
+          }));
+        },
       )
     ];
   }

@@ -14,7 +14,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebViewWidget(url: url)
+      body: WebViewWidget(url: url,hideAppBar: true,)
     );
   }
 }

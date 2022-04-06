@@ -3,7 +3,6 @@ import 'package:ski_app/pages/community_page.dart';
 import 'package:ski_app/pages/home_page.dart';
 import 'package:ski_app/pages/setting_page.dart';
 import 'package:ski_app/pages/shopping_page.dart';
-import 'package:ski_app/pages/test_page.dart';
 
 class TabNavigator extends StatefulWidget {
   const TabNavigator({Key? key}) : super(key: key);
@@ -34,7 +33,6 @@ class _TabNavigatorState extends State<TabNavigator> {
           CommunityPage(),
           ShoppingPage(),
           MePage(),
-          TestPage()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -64,10 +62,6 @@ class _TabNavigatorState extends State<TabNavigator> {
           BottomNavigationBarItem(
             icon: Icon(Icons.settings,),
             label: "设置",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.developer_mode,),
-            label: "test",
           ),
         ],
       )
