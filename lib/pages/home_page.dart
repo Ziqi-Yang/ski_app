@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ski_app/pages/fetching_data_page.dart';
 import 'package:ski_app/pages/history_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: HistoryPage(customTitle: "滑雪",),
+      // body: HistoryPage(customTitle: "历史滑雪",),
+      body: FetchingDataPage(),
     );
   }
 
