@@ -6,14 +6,14 @@ import 'package:ski_app/model/setting_model.dart';
 import 'package:ski_app/pages/history_page.dart';
 import 'package:ski_app/widget/setting_card.dart';
 
-class MePage extends StatefulWidget {
-  const MePage({Key? key}) : super(key: key);
+class SettingPage extends StatefulWidget {
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
-  State<MePage> createState() => _MePageState();
+  State<SettingPage> createState() => _SettingPageState();
 }
 // 为了使得PageView可以缓存这个页面，添加 with AutoMaic..
-class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
+class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClientMixin {
   SettingModel? settingModel;
 
   @override
@@ -46,8 +46,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
           ),
           child: Column(
             children: [
-              if (settingModel != null)
-                _simpleProfile(settingModel!),
+              _simpleProfile(settingModel),
               _Settings(context)
             ],
           ),
@@ -55,7 +54,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
       );
   }
 
-  _simpleProfile(SettingModel model){
+  _simpleProfile(SettingModel? model){
     // 上方头像和关注信息等等
     return FractionallySizedBox(
       widthFactor: 1,
@@ -77,7 +76,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
 
   get _avatar{
     const double borderRadius = 70;
-    bool hasError = settingModel!.errorCode != 0;
+    bool hasError = settingModel != null ? settingModel!.errorCode != 0 : true;
 
     // hasError = true;
     return Column(
@@ -113,14 +112,14 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  _information(SettingModel model){
+  _information(SettingModel? model){
     return Padding(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Row(
         children: [
-          Expanded(child: _basicInformItem("博文", model.blog! , false)),
-          Expanded(child: _basicInformItem("关注", model.following! , true)),
-          Expanded(child: _basicInformItem("粉丝", model.followers! , false)),
+          Expanded(child: _basicInformItem("博文", model != null ? model.blog ?? 0 : 0 , false)),
+          Expanded(child: _basicInformItem("关注", model != null ? model.following ?? 0 : 0 , true)),
+          Expanded(child: _basicInformItem("粉丝", model != null ? model.followers ?? 0 : 0 , false)),
         ],
       )
     );
@@ -128,9 +127,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
 
   _basicInformItem(String title, int num, bool centerItem) {
     BorderSide whiteBorderSide = const BorderSide(width: 0.8, color: Colors.white);
-    bool hasError = settingModel!.errorCode != 0;
 
-    // hasError = true;
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -141,7 +138,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
       child: Column(
         children: [
           Text(
-              hasError ? "0" : num.toString(),
+            num.toString(), // NOTICE  前面已经对各组null情况讨论了，这里不需要对 has_error字段 讨论
             style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
           ),
           Text(
@@ -156,7 +153,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
 
   _Settings(BuildContext context, ){
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: SettingCard(icon: Icons.downhill_skiing, title: "通用", childs: _general(context))
     );
   }

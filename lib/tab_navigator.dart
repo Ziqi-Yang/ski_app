@@ -32,7 +32,7 @@ class _TabNavigatorState extends State<TabNavigator> {
           HomePage(),
           CommunityPage(),
           ShoppingPage(),
-          MePage(),
+          SettingPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
