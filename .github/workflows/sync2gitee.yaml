@@ -1,0 +1,19 @@
+name: sync2gitee
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: sync
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/Ziqi-Yang
+          dst: gitee/zarkliazrael
+          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+          dst_token: ${{ secrets.GITEE_TOKEN }}
