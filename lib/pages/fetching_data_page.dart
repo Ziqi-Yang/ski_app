@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:ski_app/common.dart' show MyColors;
 import 'package:ski_app/model/history_general_model.dart' show HistoryGeneralCommonItem;
+import 'package:ski_app/pages/data_analysis_page.dart';
+import 'package:ski_app/widget/common_widget.dart';
 import 'package:timelines/timelines.dart';
 import 'package:ski_app/dao/fetch_latest_data_dao.dart';
 
@@ -122,9 +124,10 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
                       }
                       return Connector.dashedLine();
                     },
-                    contentsBuilder: (_,index){
-                      return GestureDetector(
-                        onTap: (){},
+                    contentsBuilder: (context,index){
+                      return CommonWidget.gestureWrap(
+                        context: context,
+                        pageChild: const DataAnalysisPage(),
                         child: SizedBox(
                             height: 70,
                             child: Card(
