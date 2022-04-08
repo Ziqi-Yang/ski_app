@@ -11,6 +11,7 @@
   "start_time": "13:47",
   "end_time": "13:50",
   "last_time": "00:03",
+  "score": 70,
   "average_speed": 3,
   "max_slope": 48,
   "max_swivel": 185,

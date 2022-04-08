@@ -15,6 +15,7 @@
 - [x] fetch_data_page 定时器自动获取数据
   
 - [ ] Setting页面添加选项
+- [ ] data analysis 的环形记录指示器 自定义 进度条首尾添加Icon组件
 - [ ] 历史数据(滑雪记录)页面重新开发
 - [ ] 修改 splash screen 图片
 - [ ] 存储 user data

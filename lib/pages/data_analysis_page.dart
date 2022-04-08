@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ski_app/common.dart' show MyColors;
+import 'package:percent_indicator/percent_indicator.dart';
 
 class DataAnalysisPage extends StatefulWidget {
   const DataAnalysisPage({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
               onTap: (){
                 Navigator.pop(context);
               },
-                child:Icon(Icons.arrow_back, color: Colors.black87,)
+                child: const Icon(Icons.arrow_back, color: Colors.black87,)
             ),
             bottom: const TabBar(
               indicatorColor: Colors.blue,
@@ -52,9 +53,25 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
         padding: EdgeInsets.only(top: 10),
       child: Column(
         children: [
-
+          const SizedBox(height: 10,),
         ],
       ),
     );
   }
+
+  _circularIndicator(BuildContext context) {
+    // FIXME add module
+    return CircularPercentIndicator(
+        startAngle: 180,
+        radius: 130,
+        lineWidth: 20,
+        animation: true,
+        animationDuration: 1000,
+        percent: 0.7,
+        center: const Text("70.0%"),
+        circularStrokeCap: CircularStrokeCap.round,
+        progressColor: Colors.blue,
+      );
+  }
+
 }
