@@ -24,5 +24,5 @@
 
 ## Knowing issues
 
-- [ ] Setting Page 里没有对get不存在的用户数据 讨论
+- [x] Setting Page 里没有对get不存在的用户数据 讨论
 - [ ] 商店页面网页估计会自动跳转，然后导致出错，设置跳转规则
