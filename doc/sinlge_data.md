@@ -24,4 +24,17 @@
 }
 ```
 
-**返回值数据待补充**
+| **字段**           | **类型**    | **备注**  |
+|------------------|-----------|---------|
+| start_time       | string    | NonNull |
+| end_time         | string    | NonNull |
+| last_time        | string    | NonNull |
+| score            | int       | NonNull |
+| average_speed    | int       | NonNull |
+| max_slope        | int       | NonNull |
+| max_swivel       | int       | NonNull |
+| swivel_num       | int       | NonNull |
+| instant_speed    | dict      | NonNull |
+| distance         | list<int> | NonNull |
+| speed            | list<int> | NonNull |
+| skeleton_gif_url | string    | NonNull |

@@ -54,6 +54,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
       child: Column(
         children: [
           const SizedBox(height: 10,),
+          _circularIndicator(context)
         ],
       ),
     );
