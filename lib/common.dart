@@ -11,6 +11,8 @@ class Api{
   static const historyGeneralNullUser = historyGeneral + "null/1";
 
   static const fetchLatestData = home + "history/latest/";
+
+  static const singleData = home + "data/";
 }
 
 class MyColors {

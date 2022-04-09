@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:ski_app/common.dart' show MyColors;
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:ski_app/dao/single_data_dao.dart';
+import 'package:ski_app/model/single_data_model.dart';
 
 class DataAnalysisPage extends StatefulWidget {
-  const DataAnalysisPage({Key? key}) : super(key: key);
+  final String userId;
+  final String dataId;
+  const DataAnalysisPage({Key? key, this.userId="null", this.dataId="1"}) : super(key: key);
 
   @override
   State<DataAnalysisPage> createState() => _DataAnalysisPageState();
 }
 
 class _DataAnalysisPageState extends State<DataAnalysisPage> {
+  SingleDataModle? _singleDataModle;
+
+  Future<void> _loadData() async {
+    SingleDataDao.fetch(widget.userId, widget.dataId).then((value){
+      setState(() {
+        _singleDataModle = value;
+      });
+    });
+    //     .catchError((e){
+    //   print(e);
+    // });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -37,15 +60,21 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
           widthFactor: 1,
           child: Container(
             color: MyColors.lightGrey,
-            child:
-            TabBarView(
-              children: [
-                _overViewTab(context),
-                Text("World")
-              ],
-            ),
+            child: _tabBarViweLoader(context)
           ),
         )));
+  }
+
+  _tabBarViweLoader(BuildContext context){
+    if (_singleDataModle != null){
+      return TabBarView(
+        children: [
+          _overViewTab(context),
+          Text("World")
+        ],
+      );
+    }
+    return Container();
   }
 
   _overViewTab(BuildContext context) {
