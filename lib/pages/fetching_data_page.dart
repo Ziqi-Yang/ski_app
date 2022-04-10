@@ -89,7 +89,7 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
               physics: const AlwaysScrollableScrollPhysics(),
               children: [
                 _Title,
-                const Divider(height: 10,color: MyColors.light, thickness: 2,),
+                const Divider(height: 10,color: Colors.grey, thickness: 2,),
                 FixedTimeline.tileBuilder(
                   theme: TimelineThemeData(
                     nodePosition: .05,
