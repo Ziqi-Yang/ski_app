@@ -38,3 +38,5 @@
 | distance         | list<double> | NonNull |
 | speed            | list<double> | NonNull |
 | skeleton_gif_url | string    | NonNull |
+
+备注: `double`类型最多保留一位小数

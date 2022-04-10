@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ski_app/common.dart' show MyColors;
 import 'package:percent_indicator/percent_indicator.dart';
@@ -15,6 +14,13 @@ class DataAnalysisPage extends StatefulWidget {
 }
 
 class _DataAnalysisPageState extends State<DataAnalysisPage> {
+  final TextStyle _columnTextStyle = const TextStyle(color: Colors.black, fontSize: 20);
+  final TextStyle _timeTextStyle = const TextStyle(fontSize: 20);
+  final TextStyle _pmtTextStyle = const TextStyle(color: Colors.black54, fontSize: 12,);
+  final TextStyle _scoreStyle = const TextStyle(
+      color: Colors.blue, fontSize: 40, fontWeight: FontWeight.bold,
+      shadows: [Shadow(color:Colors.grey, blurRadius: 10)]);
+
   SingleDataModle? _singleDataModle;
 
   Future<void> _loadData() async {
@@ -84,14 +90,20 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
       child: Column(
         children: [
           const SizedBox(height: 10,),
-          _circularIndicator(context)
+          _circularIndicator(context),
+          const SizedBox(height: 20,),
+          _dataOverviewBoard(context)
         ],
       ),
     );
   }
 
+
+
+  /// ----------------------------------
+  /// 数据概览页面 开始
+  /// ----------------------------------
   _circularIndicator(BuildContext context) {
-    // FIXME add module
     return Container(
         decoration: BoxDecoration(
           boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 20.0)],
@@ -108,18 +120,13 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
         center: _circularIndicatorCenter(context),
         circularStrokeCap: CircularStrokeCap.round,
         progressColor: Colors.blue,
+        backgroundColor: MyColors.lightGrey,
       )
     );
   }
 
 
   _circularIndicatorCenter(BuildContext context){
-    TextStyle timeTextStyle = const TextStyle(fontSize: 20);
-    TextStyle pmtTextStyle = const TextStyle(color: Colors.black54, fontSize: 12,);
-    TextStyle scoreStyle = const TextStyle(
-        color: Colors.blue, fontSize: 40, fontWeight: FontWeight.bold,
-    shadows: [Shadow(color:Colors.grey, blurRadius: 10)]);
-
     String _startTime = "00:00";
     String _endTime = "00:00";
     int _score = 0;
@@ -136,6 +143,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
         decoration: BoxDecoration(
             color: MyColors.lightGrey,
             borderRadius: BorderRadius.circular(130),
+          boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5)]
         ),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
@@ -147,8 +155,8 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
               children: [
                 Column(
                   children: [
-                    Text(_startTime, style: timeTextStyle,),
-                    Text("开始", style: pmtTextStyle,)
+                    Text(_startTime, style: _timeTextStyle,),
+                    Text("开始", style: _pmtTextStyle,)
                   ],
                 ),
                 const VerticalDivider(
@@ -160,19 +168,97 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
                 ),
                 Column(
                   children: [
-                    Text(_endTime, style: timeTextStyle,),
-                    Text("结束", style: pmtTextStyle,)
+                    Text(_endTime, style: _timeTextStyle,),
+                    Text("结束", style: _pmtTextStyle,)
                   ],
                 )
               ],
             ),
           ),
           const SizedBox(height: 8,),
-          Text(_score.toString(),style: scoreStyle,),
-          Text("分数", style: pmtTextStyle,)
+          Text(_score.toString(),style: _scoreStyle,),
+          Text("分数", style: _pmtTextStyle,)
         ],
       ),
       );
   }
+
+  _dataOverviewBoard(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: 1,
+      child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _comprehensiveDatas(context)
+              ],
+            )
+        )
+    );
+  }
+
+  _comprehensiveDatas(BuildContext context){
+    double _averageSpeed = 0.0;
+    double _maxSlope = 0.0;
+    double _maxSwivel = 0.0;
+    int _swivelNum = 5;
+
+    if (_singleDataModle != null){
+      _averageSpeed = _singleDataModle!.averageSpeed;
+      _maxSlope = _singleDataModle!.maxSlope;
+      _maxSwivel = _singleDataModle!.maxSwivel;
+      _swivelNum = _singleDataModle!.swivelNum;
+    }
+
+    return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("综合数据记录", style: _columnTextStyle),
+        const SizedBox(height: 10,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _dataCrad(context, "平均速度", "$_averageSpeed m/s", Colors.blue),
+            _dataCrad(context, "最大坡度", "$_maxSlope°", const Color(0xD4FFFFFF)),
+            _dataCrad(context, "最大转体", "$_maxSwivel°", Colors.blue),
+            _dataCrad(context, "转体次数", "$_swivelNum", const Color(0xD4FFFFFF)),
+          ],
+        )
+      ],
+    );
+  }
+
+  _dataCrad(BuildContext context, String title, String value, Color backgroundColor){
+    TextStyle _dataCardTextStyle;
+    if (backgroundColor == Colors.blue){
+      _dataCardTextStyle = const TextStyle(color: Color(0xD4FFFFFF), fontSize: 14);
+    } else {
+      _dataCardTextStyle = const TextStyle(color: Colors.black87, fontSize: 14);
+    }
+
+
+    return Container(
+      height: 80,
+      width: 80,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 2)]
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(title, style: _dataCardTextStyle,),
+          const SizedBox(height: 6,),
+          Text(value, style: _dataCardTextStyle,)
+        ],
+      ),
+    );
+  }
+
+  /// ----------------------------------
+  /// 数据概览页面 结束
+  /// ----------------------------------
 
 }
