@@ -3,6 +3,7 @@ import 'package:ski_app/common.dart' show MyColors;
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:ski_app/dao/single_data_dao.dart';
 import 'package:ski_app/model/single_data_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DataAnalysisPage extends StatefulWidget {
   final String userId;
@@ -45,32 +46,53 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: MyColors.lightGrey,
-            elevation: 0,
-            leading: GestureDetector(
-              onTap: (){
-                Navigator.pop(context);
+            body: NestedScrollView(
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+                return <Widget>[
+                  _customAppBar(context),
+                ];
               },
-                child: const Icon(Icons.arrow_back, color: Colors.black87,)
-            ),
-            bottom: const TabBar(
-              indicatorColor: Colors.blue,
-              padding: EdgeInsets.symmetric(horizontal: 30),
-                tabs: [
-                  Tab(child: Text("数据概览", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),),),
-                  Tab(child: Text("动作对比", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),),),
-                ],
-            ),
-          ),
-            body: FractionallySizedBox(
-          widthFactor: 1,
-          child: Container(
-            color: MyColors.lightGrey,
-            child: _tabBarViweLoader(context)
-          ),
-        )));
+              body: Builder(builder: (BuildContext context){
+                return FractionallySizedBox(
+                        widthFactor: 1,
+                        child: Container(
+                            color: MyColors.lightGrey,
+                            child: _tabBarViweLoader(context)
+                        ),
+                      );
+              },),
+            )
+        ));
   }
+
+  _customAppBar(BuildContext context) {
+    // sliver
+    return SliverAppBar(
+      floating: true,
+      snap: false,
+      pinned: true, // 把 TabBar 固定在顶部
+      backgroundColor: MyColors.lightGrey,
+      // forceElevated: true,
+      // elevation: 3,
+      leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back, color: Colors.black87,)
+      ),
+      bottom: const TabBar(
+        indicatorColor: Colors.blue,
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        tabs: [
+          Tab(child: Text("数据概览", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),),),
+          Tab(child: Text("动作对比", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),),),
+        ],
+      ),
+
+    );
+  }
+
+
 
   _tabBarViweLoader(BuildContext context){
     if (_singleDataModle != null){
@@ -84,25 +106,31 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
     return Container();
   }
 
-  _overViewTab(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          const SizedBox(height: 10,),
-          _circularIndicator(context),
-          const SizedBox(height: 20,),
-          _dataOverviewBoard(context)
-        ],
-      ),
-    );
-  }
-
-
 
   /// ----------------------------------
   /// 数据概览页面 开始
   /// ----------------------------------
+
+  _overViewTab(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Column(
+              children: [
+                const SizedBox(height: 10,),
+                _circularIndicator(context),
+                const SizedBox(height: 20,),
+                _dataOverviewBoard(context)
+              ],
+            ),
+          )
+        )
+      ],
+    );
+  }
+
   _circularIndicator(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
@@ -189,9 +217,11 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
       child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _comprehensiveDatas(context)
+                _comprehensiveDatas(context),
+                const SizedBox(height: 20,),
+                _speedChart(context),
               ],
             )
         )
@@ -254,6 +284,16 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
           Text(value, style: _dataCardTextStyle,)
         ],
       ),
+    );
+  }
+
+  _speedChart(BuildContext context){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("全程速度分析", style: _columnTextStyle,),
+        const SizedBox(height: 10,),
+      ],
     );
   }
 
