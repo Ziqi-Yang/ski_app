@@ -116,7 +116,9 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
   _circularIndicatorCenter(BuildContext context){
     TextStyle timeTextStyle = const TextStyle(fontSize: 20);
     TextStyle pmtTextStyle = const TextStyle(color: Colors.black54, fontSize: 12,);
-    TextStyle scoreStyle = const TextStyle(color: Colors.blue, fontSize: 40, fontWeight: FontWeight.bold);
+    TextStyle scoreStyle = const TextStyle(
+        color: Colors.blue, fontSize: 40, fontWeight: FontWeight.bold,
+    shadows: [Shadow(color:Colors.grey, blurRadius: 10)]);
 
     String _startTime = "00:00";
     String _endTime = "00:00";
