@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'common.dart' show MyColors;
 import 'tab_navigator.dart';
 
 void main() => runApp(MyApp());
