@@ -17,10 +17,7 @@ class Api{
 
 class MyColors {
   // 数字类型或Color类型 如果有其他文件用这个的话都不会在gutter上显示颜色
-  static const light = Color(0xffE3EEF8);
-  static const lightGrey = Color(0xffD7DDEB);
-  static const blueGrey = Color(0xffC8D6EA);
-  static const lightBlue = Color(0xffC7E4FF);
-  static const lightBlueAccent = Color(0xffA5BDE3);
+  static const background = Color(0xffeceff1); // lightLightBlueGrey
+
   static const blueAccent = Color(0xff7196C3);
 }

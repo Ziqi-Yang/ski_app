@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ski_app/common.dart' show MyColors;
 
 class SettingCard extends StatelessWidget {
   final IconData icon;
@@ -12,8 +11,9 @@ class SettingCard extends StatelessWidget {
     return Container(
       // margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
       decoration: BoxDecoration(
-        color: MyColors.light,
-        borderRadius: BorderRadius.circular(8)
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 3)]
       ),
       child: Padding(
         padding: EdgeInsets.all(8),

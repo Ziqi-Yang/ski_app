@@ -58,7 +58,8 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
                 return FractionallySizedBox(
                         widthFactor: 1,
                         child: Container(
-                            color: MyColors.lightGrey,
+                            // color: MyColors.lightGrey,
+                          color: Colors.white,
                             child: _tabBarViweLoader(context)
                         ),
                       );
@@ -73,7 +74,10 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
       floating: true,
       snap: false,
       pinned: true, // 把 TabBar 固定在顶部
-      backgroundColor: MyColors.lightGrey,
+      // backgroundColor: MyColors.lightGrey,
+      backgroundColor: Colors.white,
+      title: const Text("数据面板", style: TextStyle(color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),),
+      centerTitle: true,
       // forceElevated: true,
       // elevation: 3,
       leading: GestureDetector(
@@ -150,7 +154,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
         center: _circularIndicatorCenter(context),
         circularStrokeCap: CircularStrokeCap.round,
         progressColor: Colors.blue,
-        backgroundColor: MyColors.lightGrey,
+        backgroundColor: Colors.white,
       )
     );
   }
@@ -171,7 +175,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
         height: 110 * 2,
         width: 110 * 2,
         decoration: BoxDecoration(
-            color: MyColors.lightGrey,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(130),
           boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5)]
         ),
@@ -252,9 +256,9 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _dataCrad(context, "平均速度", "$_averageSpeed m/s", Colors.blue),
-            _dataCrad(context, "最大坡度", "$_maxSlope°", const Color(0xD4FFFFFF)),
+            _dataCrad(context, "最大坡度", "$_maxSlope°", Colors.white),
             _dataCrad(context, "最大转体", "$_maxSwivel°", Colors.blue),
-            _dataCrad(context, "转体次数", "$_swivelNum", const Color(0xD4FFFFFF)),
+            _dataCrad(context, "转体次数", "$_swivelNum", Colors.white),
           ],
         )
       ],

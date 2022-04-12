@@ -80,7 +80,7 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
       body: FractionallySizedBox(
         widthFactor: 1,
           child: Container(
-        color: MyColors.lightGrey,
+        color: MyColors.background,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: RefreshIndicator(
@@ -131,7 +131,7 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
                         child: SizedBox(
                             height: 70,
                             child: Card(
-                              color: MyColors.light,
+                              color: Colors.white,
                               elevation: 2,
                               child: Padding(
                                   padding: const EdgeInsets.all(4),

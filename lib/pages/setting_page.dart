@@ -42,7 +42,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
     return Scaffold(
       body: Container(
           decoration: const BoxDecoration(
-            color: MyColors.lightGrey,
+            color: MyColors.background,
           ),
           child: Column(
             children: [

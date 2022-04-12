@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // 暂时只有一种主题
         brightness: Brightness.light,
-        primaryColor: MyColors.light,
+        primaryColor: Colors.white,
 
         // fontFamily: ""
         textTheme: const TextTheme(
