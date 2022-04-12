@@ -4,6 +4,8 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:ski_app/dao/single_data_dao.dart';
 import 'package:ski_app/model/single_data_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
 class DataAnalysisPage extends StatefulWidget {
   final String userId;
@@ -24,6 +26,11 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
 
   TooltipBehavior? _tooltipBehavior;
   SingleDataModle? _singleDataModle;
+
+  // 视频播放
+  VideoPlayerController? _videoPlayerController;
+  ChewieController? _chewieController;
+
 
   Future<void> _loadData() async {
     SingleDataDao.fetch(widget.userId, widget.dataId).then((value){
@@ -105,7 +112,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
       return TabBarView(
         children: [
           _overViewTab(context),
-          Text("World")
+          _actionCompareTab(context)
         ],
       );
     }
@@ -122,10 +129,9 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 20),
             child: Column(
               children: [
-                const SizedBox(height: 10,),
                 _circularIndicator(context),
                 const SizedBox(height: 20,),
                 _dataOverviewBoard(context)
@@ -339,8 +345,62 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
 
 
   /// ----------------------------------
-  /// 数据概览页面 结束
+  /// 动作对比界面 开始
   /// ----------------------------------
+
+  _actionCompareTab(BuildContext context){
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20,20,20,0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("动作分析", style: _columnTextStyle,),
+                  _actionCompareBox(context)
+                ],
+              ),
+            )
+        )
+      ],
+    );
+  }
+
+  _videoPlayerControllerInit() async {
+    await _videoPlayerController!.initialize(); // NOTICE 这里加了确认不为空，看看
+  }
+
+  _actionCompareBox(BuildContext context) {
+    if (_singleDataModle != null){
+      _videoPlayerController = VideoPlayerController.network(_singleDataModle!.actionCompareVideoUrl);
+      _videoPlayerControllerInit();
+      _chewieController = ChewieController(videoPlayerController: _videoPlayerController!);
+
+      return Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20)
+        ),
+        height: 250,
+          child: Chewie(controller: _chewieController!)
+      );
+    }
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+    );
+  }
+
+
+  @override
+  void dispose() {
+    if (_singleDataModle != null){
+      _videoPlayerController!.dispose();
+      _chewieController!.dispose();
+    }
+    super.dispose();
+  }
+
 
 }
 

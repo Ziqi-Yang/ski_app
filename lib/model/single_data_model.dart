@@ -23,7 +23,7 @@ class SingleDataModle {
   final double maxSwivel;
   final int swivelNum;
   final InstantSpeedModel instantSpeed;
-  final String skeletonGifUrl;
+  final String actionCompareVideoUrl;
 
   SingleDataModle({required this.startTime,
     required this.endTime,
@@ -34,7 +34,7 @@ class SingleDataModle {
     required this.maxSwivel,
     required this.swivelNum,
     required this.instantSpeed,
-    required this.skeletonGifUrl});
+    required this.actionCompareVideoUrl});
 
   factory SingleDataModle.fromJson(Map<String, dynamic> json){
     return SingleDataModle(
@@ -47,7 +47,7 @@ class SingleDataModle {
         maxSwivel: json["max_swivel"].toDouble(),
         swivelNum: json["swivel_num"],
         instantSpeed: InstantSpeedModel.fromJson(json["instant_speed"]),
-        skeletonGifUrl: json["skeleton_gif_url"]);
+        actionCompareVideoUrl: json["action_compare_video_url"]);
   }
 }
 

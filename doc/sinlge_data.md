@@ -20,7 +20,7 @@
     "distance": [300.0, 600.0, 900.0, 1200.0, 1500.0, 1800.0],
     "speed": [18.4, 30.1, 41.2, 81.0, 55.2, 61.3]
   },
-  "skeleton_gif_url": "https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1"
+  "action_compare_video_url": "https://dl.vibe.cn/assets/video/video-demo-full.mp4"
 }
 ```
 
@@ -37,6 +37,6 @@
 | instant_speed    | dict      | NonNull |
 | distance         | list<double> | NonNull |
 | speed            | list<double> | NonNull |
-| skeleton_gif_url | string    | NonNull |
+| action_compare_video_url | string    | NonNull |
 
 备注: `double`类型最多保留一位小数
