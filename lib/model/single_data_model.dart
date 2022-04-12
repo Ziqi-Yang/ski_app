@@ -22,7 +22,7 @@ class SingleDataModle {
   final double maxSlope;
   final double maxSwivel;
   final int swivelNum;
-  final instantSpeedModel instantSpeed;
+  final InstantSpeedModel instantSpeed;
   final String skeletonGifUrl;
 
   SingleDataModle({required this.startTime,
@@ -46,21 +46,31 @@ class SingleDataModle {
         maxSlope: json["max_slope"].toDouble(),
         maxSwivel: json["max_swivel"].toDouble(),
         swivelNum: json["swivel_num"],
-        instantSpeed: instantSpeedModel.fromJson(json["instant_speed"]),
+        instantSpeed: InstantSpeedModel.fromJson(json["instant_speed"]),
         skeletonGifUrl: json["skeleton_gif_url"]);
   }
 }
 
-class instantSpeedModel {
-  final List<double> distance;
-  final List<double> speed;
+class InstantSpeedModel {
+  final List<SpeedData> speedData;
 
-  instantSpeedModel({required this.distance, required this.speed});
+  InstantSpeedModel({required this.speedData});
 
-  factory instantSpeedModel.fromJson(Map<String, dynamic> json){
-    return instantSpeedModel(
-        distance: List<double>.from(json["distance"].map((e) => e.toDouble()).toList()),
-        speed: List<double>.from(json["speed"].map((e)=>e.toDouble()).toList())
-    );
+  factory InstantSpeedModel.fromJson(Map<String, dynamic> json){
+    List<double>  distance  = List<double>.from(json["distance"].map((e) => e.toDouble()).toList());
+    List<double>  speed  = List<double>.from(json["speed"].map((e) => e.toDouble()).toList());
+    List<SpeedData> speedData = [];
+    for (int i=0; i< distance.length; i++){
+      speedData.add(SpeedData(distance[i], speed[i]));
+    }
+    return InstantSpeedModel(speedData: speedData);
   }
+
+}
+
+class SpeedData {
+  final double distance;
+  final double speed;
+
+  SpeedData(this.distance, this.speed);
 }

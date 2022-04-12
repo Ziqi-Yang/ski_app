@@ -22,6 +22,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
       color: Colors.blue, fontSize: 40, fontWeight: FontWeight.bold,
       shadows: [Shadow(color:Colors.grey, blurRadius: 10)]);
 
+  TooltipBehavior? _tooltipBehavior;
   SingleDataModle? _singleDataModle;
 
   Future<void> _loadData() async {
@@ -39,6 +40,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
   void initState() {
     super.initState();
     _loadData();
+    _tooltipBehavior = TooltipBehavior(enable: true);
   }
 
   @override
@@ -288,17 +290,53 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
   }
 
   _speedChart(BuildContext context){
+    List<SpeedData> _speedDatas = [];
+
+    if (_singleDataModle != null){
+      _speedDatas = _singleDataModle!.instantSpeed.speedData;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("全程速度分析", style: _columnTextStyle,),
         const SizedBox(height: 10,),
+        Container(
+          height: 250,
+          child: SfCartesianChart(
+            title: ChartTitle(
+              text: "速度-路程变化图",
+              textStyle: const TextStyle(
+                color: Colors.black54,
+                fontSize: 14,
+                fontWeight: FontWeight.bold
+              )
+            ),
+            primaryXAxis: NumericAxis(),
+            primaryYAxis: NumericAxis(),
+            tooltipBehavior: _tooltipBehavior,
+            series: <LineSeries<SpeedData, double>>[
+              LineSeries<SpeedData, double>(
+                name: "路程: 速度",
+                dataSource: _speedDatas,
+                xValueMapper: (SpeedData speedData, _) => speedData.distance,
+                yValueMapper: (SpeedData speedData, _) => speedData.speed,
+                animationDuration: 2500,
+                enableTooltip: true,
+                markerSettings: const MarkerSettings(isVisible: true),
+                width: 2
+              )
+            ],
+          ),
+        )
       ],
     );
   }
+
 
   /// ----------------------------------
   /// 数据概览页面 结束
   /// ----------------------------------
 
 }
+
