@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 class SettingCard extends StatelessWidget {
   final IconData icon;
   final String title;
+  final double marginTop;
   List<Widget> childs;
-  SettingCard({Key? key, required this.icon,required this.title,required this.childs}) : super(key: key);
+  SettingCard({Key? key, required this.icon,required this.title, required this.childs,
+    this.marginTop=0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+      margin: EdgeInsets.only(top: marginTop),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
         boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 3)]
       ),
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Column(
           // direction: Axis.vertical,
           // spacing: 10,

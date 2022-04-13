@@ -14,6 +14,8 @@ class SettingPage extends StatefulWidget {
 }
 // 为了使得PageView可以缓存这个页面，添加 with AutoMaic..
 class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClientMixin {
+  final Color _profileFontColor = Colors.black; // 避免与背景冲突
+
   SettingModel? settingModel;
 
   @override
@@ -47,7 +49,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
           child: Column(
             children: [
               _simpleProfile(settingModel),
-              _Settings(context)
+              _settings(context)
             ],
           ),
         )
@@ -61,7 +63,11 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
       child: Container(
         height: 350,
         decoration: const BoxDecoration(
-            color: MyColors.blueAccent
+            color: MyColors.blueAccent,
+            image: DecorationImage(
+                image: AssetImage("assets/images/setting_page/snow_1.png"),
+                fit: BoxFit.cover
+            )
         ),
         child: Column(
           children: [
@@ -79,11 +85,11 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
     bool hasError = settingModel != null ? settingModel!.errorCode != 0 : true;
 
     // hasError = true;
-    return Column(
+    return SafeArea(child: Column(
       children: [
         Container(
           width: borderRadius * 2, height: borderRadius * 2,
-          margin: const EdgeInsets.fromLTRB(0, 40, 0, 20), // 考虑到状态栏
+          margin: const EdgeInsets.only(top: 20),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black38, width: 6),
             borderRadius: BorderRadius.circular(borderRadius)
@@ -99,17 +105,17 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
         ),
         Text(
           hasError ? "游客": settingModel!.username!,
-          style: const TextStyle(fontSize: 24,color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, color: _profileFontColor, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 5,
         ),
         Text(
           hasError ? "": "@${settingModel!.userId!}",
-          style: const TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 14,color: _profileFontColor, fontWeight: FontWeight.bold),
         )
       ],
-    );
+    ));
   }
 
   _information(SettingModel? model){
@@ -126,7 +132,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
   }
 
   _basicInformItem(String title, int num, bool centerItem) {
-    BorderSide whiteBorderSide = const BorderSide(width: 0.8, color: Colors.white);
+    BorderSide whiteBorderSide = BorderSide(width: 0.8, color: _profileFontColor);
 
     return Container(
       decoration: BoxDecoration(
@@ -139,11 +145,11 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
         children: [
           Text(
             num.toString(), // NOTICE  前面已经对各组null情况讨论了，这里不需要对 has_error字段 讨论
-            style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+            style: TextStyle(color: _profileFontColor, fontSize: 24, fontWeight: FontWeight.w600),
           ),
           Text(
             title.toString(),
-            style: const TextStyle(color: Colors.white, fontSize: 16),
+            style: TextStyle(color: _profileFontColor, fontSize: 16),
           )
         ],
       ),
@@ -151,14 +157,19 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
   }
 
 
-  _Settings(BuildContext context, ){
+  _settings(BuildContext context, ){
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: SettingCard(icon: Icons.downhill_skiing, title: "通用", childs: _general(context))
+      child: Column(
+        children: [
+          SettingCard(icon: Icons.downhill_skiing, title: "功能区", childs: _functionArea(context)),
+          SettingCard(icon: Icons.grid_view, title: "通用设置", childs: _generalSettings(context), marginTop: 10,)
+        ],
+      )
     );
   }
 
-  _general(BuildContext context) {
+  _functionArea(BuildContext context) {
     return <Widget>[
       ListTile(
         leading: const Icon(Icons.history),
@@ -172,4 +183,18 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
     ];
   }
 
+  _generalSettings(BuildContext context) {
+    return <Widget>[
+      ListTile(
+        leading: const Icon(Icons.light_mode),
+        title: Text("主题", style: Theme.of(context).textTheme.bodyText1,),
+        onTap: (){},
+      ),
+      ListTile(
+        leading: const Icon(Icons.language),
+        title: Text("语言", style: Theme.of(context).textTheme.bodyText1,),
+        onTap: (){},
+      )
+    ];
+  }
 }
