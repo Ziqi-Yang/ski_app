@@ -159,10 +159,10 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
 
   _settings(BuildContext context, ){
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
         children: [
-          SettingCard(icon: Icons.downhill_skiing, title: "功能区", childs: _functionArea(context)),
+          SettingCard(icon: Icons.downhill_skiing, title: "功能区", childs: _functionArea(context), marginTop: 4,),
           SettingCard(icon: Icons.grid_view, title: "通用设置", childs: _generalSettings(context), marginTop: 10,)
         ],
       )
