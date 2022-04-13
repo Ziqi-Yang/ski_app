@@ -144,6 +144,11 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
   }
 
   _circularIndicator(BuildContext context) {
+    double _percent = 0.0;
+    if (_singleDataModle != null){
+      _percent = _singleDataModle!.score / 100;
+    }
+
     return Container(
         decoration: BoxDecoration(
           boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 20.0)],
@@ -156,7 +161,7 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
         lineWidth: 20,
         animation: true,
         animationDuration: 1000,
-        percent: 0.7,
+        percent: _percent,
         center: _circularIndicatorCenter(context),
         circularStrokeCap: CircularStrokeCap.round,
         progressColor: Colors.blue,
@@ -358,7 +363,8 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("动作分析", style: _columnTextStyle,),
-                  _actionCompareBox(context)
+                  _actionCompareBox(context),
+                  Text("综合评价", style: _columnTextStyle,),
                 ],
               ),
             )

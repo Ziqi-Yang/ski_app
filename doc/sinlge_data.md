@@ -38,5 +38,6 @@
 | distance         | list<double> | NonNull |
 | speed            | list<double> | NonNull |
 | action_compare_video_url | string    | NonNull |
+| comment | string    | NonNull |
 
 备注: `double`类型最多保留一位小数
