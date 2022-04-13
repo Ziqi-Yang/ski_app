@@ -13,12 +13,29 @@ class _CommunityPageState extends State<CommunityPage> with AutomaticKeepAliveCl
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    super.build(context); // 必须
+
     return Scaffold(
-      body: Center(
-        child: Text("动态"),
+      body: CustomScrollView(
+        slivers: [
+          _customAppBar(context)
+        ],
       ),
     );
   }
 
+  _customAppBar(BuildContext context){
+    return SliverAppBar(
+      floating: true,
+      leading: Icon(Icons.person, color: Colors.blue,), // FIXME change
+      title: Icon(Icons.downhill_skiing, color: Colors.blue, size: 30,),
+      centerTitle: true,
+      backgroundColor: Colors.white,
+      forceElevated: true,
+      elevation: 1.5,
+      actions: [
+        IconButton(onPressed: (){}, icon: const Icon(Icons.settings, color: Colors.blue,))
+      ],
+    );
+  }
 }

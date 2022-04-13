@@ -65,6 +65,7 @@ class _SettingPageState extends State<SettingPage> with AutomaticKeepAliveClient
         decoration: const BoxDecoration(
             color: MyColors.blueAccent,
             image: DecorationImage(
+              opacity: .8,
                 image: AssetImage("assets/images/setting_page/snow_1.png"),
                 fit: BoxFit.cover
             )
