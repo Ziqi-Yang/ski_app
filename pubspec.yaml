@@ -43,6 +43,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.1.47+1
   video_player: ^2.3.0
   chewie: ^1.3.1 # 视频播放, 开箱即用, 依赖于flutter官方的video_player插件
+  scrollable_positioned_list: ^0.2.3
 
 dev_dependencies:
   flutter_test:

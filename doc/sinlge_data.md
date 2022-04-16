@@ -20,7 +20,8 @@
     "distance": [300.0, 600.0, 900.0, 1200.0, 1500.0, 1800.0],
     "speed": [18.4, 30.1, 41.2, 81.0, 55.2, 61.3]
   },
-  "action_compare_video_url": "https://dl.vibe.cn/assets/video/video-demo-full.mp4"
+  "action_compare_video_url": "https://dl.vibe.cn/assets/video/video-demo-full.mp4",
+  "comment": "列奥那多是勇者最强，不接受反驳"
 }
 ```
 

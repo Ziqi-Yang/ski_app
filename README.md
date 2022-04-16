@@ -26,4 +26,7 @@
 ## Knowing issues
 
 - [x] Setting Page 里没有对get不存在的用户数据 讨论
+  
+- [ ] `community_page` 暂不能提前加载(根本是显示当前显示的元素的index),`scroll_positioned_list`库提供了
+  这个功能，但是不能放在`CustomScrollView`里, 后期可能需要自己写
 - [ ] 商店页面网页估计会自动跳转，然后导致出错，设置跳转规则

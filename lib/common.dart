@@ -13,6 +13,10 @@ class Api{
   static const fetchLatestData = home + "history/latest/";
 
   static const singleData = home + "data/";
+
+  static const community = home + "community/";
+  static const communityTweets = community + "tweets/";
+
 }
 
 class MyColors {

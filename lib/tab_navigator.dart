@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ski_app/pages/community_page.dart';
+import 'package:ski_app/pages/communiy_page/community_page.dart';
 import 'package:ski_app/pages/home_page.dart';
 import 'package:ski_app/pages/setting_page.dart';
 import 'package:ski_app/pages/shopping_page.dart';
@@ -48,15 +48,15 @@ class _TabNavigatorState extends State<TabNavigator> {
         selectedItemColor: _activeColor,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,),
+            icon: Icon(Icons.home_outlined,),
             label: "首页",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.forum,),
+            icon: Icon(Icons.forum_outlined,),
             label: "动态",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shop,),
+            icon: Icon(Icons.storefront_outlined,),
             label: "商店",
           ),
           BottomNavigationBarItem(
