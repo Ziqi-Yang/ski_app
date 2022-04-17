@@ -44,3 +44,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# my custom
+/android/key.properties
+/android/flutter_android_key.jks
