@@ -15,6 +15,7 @@
 - [x] fetch_data_page 定时器自动获取数据
 - [x] 为 setting 上半user profile区域设置图片
 
+- [ ] 将商店页面由网页展示改为类似京东界面,只不过点击控件跳转到京东app
 - [ ] data analysis 的 环形记录指示器 自定义 进度条首尾添加Icon组件(现在发现`syncfushion`有自定义组件的的这)
 - [ ] data analysis 的 circular indicator 中间 添加水波浪效果
 - [ ] 历史数据(滑雪记录)页面重新开发

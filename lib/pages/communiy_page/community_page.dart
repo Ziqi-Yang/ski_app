@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:ski_app/pages/communiy_page/Community_drawer.dart';
 import 'package:ski_app/model/community/tweet.dart';
-import 'package:ski_app/dao/community/tweets_dao.dart'; // FIXME
+import 'package:ski_app/dao/community/tweets_dao.dart';
+import 'package:ski_app/pages/communiy_page/tweet_widget.dart'; // FIXME
 
 
 class CommunityPage extends StatefulWidget {
@@ -117,9 +118,7 @@ class _CommunityPageState extends State<CommunityPage>
         reverse: true,
         itemCount: _tweets.length,
         itemBuilder: (BuildContext context, int index){
-          return ListTile(
-            title: Text(_tweets[index].username, style: TextStyle(color: color),),
-          );
+          return TweetWidget(tweet: _tweets[index]);
         }
     );
   }
