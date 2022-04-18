@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ski_app/widget/webview.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: WebViewWidget(url: url,hideAppBar: true,)
+      body: Container(),
     );
   }
 

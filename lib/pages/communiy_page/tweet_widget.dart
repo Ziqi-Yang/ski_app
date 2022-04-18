@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ski_app/model/community/tweet.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TweetWidget extends StatelessWidget {
   final Tweet tweet;
@@ -61,11 +62,22 @@ class TweetWidget extends StatelessWidget {
                     ),
                     Padding(padding: const EdgeInsets.only(top: 8.0),
                       child: Row(
-                        children: const [
-                          Expanded(child: Align(
+                        children: [
+                          const Expanded(child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Icon(Icons.chat_bubble),
-                          ))
+                            child: Icon(FontAwesomeIcons.comment),
+                          )),
+                          Expanded(
+                              child: Row(
+                                children: [
+                                  Icon(FontAwesomeIcons.retweet), // FIXME 我看还是不要用font_awesome_flutter了，直接用svg
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                    child: Text(tweet.retweet.toString()),
+                                  )
+                                ],
+                              )
+                          )
                         ],
                       ),
                     )

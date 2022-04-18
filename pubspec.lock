@@ -86,7 +86,7 @@ packages:
     source: hosted
     version: "0.17.1"
   cupertino_icons:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
@@ -177,6 +177,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "10.1.0"
   html:
     dependency: transitive
     description:
@@ -491,7 +498,7 @@ packages:
     source: hosted
     version: "0.2.0"
   webview_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: webview_flutter
       url: "https://pub.dartlang.org"
