@@ -114,7 +114,7 @@ class _HistoryPageState extends State<HistoryPage> {
     List<Widget> items = [];
     for (var data in datas){
       items.add(
-          CommonWidget.gestureWrap(
+          CommonWidget.ontapSlideRoute(
               context: context,
             pageChild: Text("test"), // FIXME
             child: ListTile(

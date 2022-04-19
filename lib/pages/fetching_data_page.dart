@@ -8,6 +8,7 @@ import 'package:ski_app/pages/data_analysis_page.dart';
 import 'package:ski_app/widget/common_widget.dart';
 import 'package:timelines/timelines.dart';
 import 'package:ski_app/dao/fetch_latest_data_dao.dart';
+import 'package:route_animation_helper/route_animation_helper.dart' show AnimType;
 
 class FetchingDataPage extends StatefulWidget {
   final String userId;
@@ -148,8 +149,9 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
           return Connector.dashedLine();
         },
         contentsBuilder: (context,index){
-          return CommonWidget.gestureWrap(
+          return CommonWidget.ontapSlideRoute(
               context: context,
+              animTape: AnimType.slideBottom,
               pageChild: const DataAnalysisPage(),
               child: SizedBox(
                   height: 70,

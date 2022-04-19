@@ -3,7 +3,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:ski_app/pages/communiy_page/Community_drawer.dart';
 import 'package:ski_app/model/community/tweet.dart';
 import 'package:ski_app/dao/community/tweets_dao.dart';
-import 'package:ski_app/pages/communiy_page/tweet_widget.dart'; // FIXME
+import 'package:ski_app/pages/communiy_page/tweet_widget.dart';
 
 
 class CommunityPage extends StatefulWidget {
@@ -53,22 +53,33 @@ class _CommunityPageState extends State<CommunityPage>
     const double _bottomNavigationBarHeight = 58.0;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _customAppBar(context),
-          SliverToBoxAdapter(
-              child: SizedBox(
-                  height: _screenHeight - (_statusBarHeight + _sliverAppBarHeight + _bottomNavigationBarHeight),
-                  child: _MessagesList(context, Colors.blue)
-              )
-          )
-        ],
-      ),
+      body:
+          NestedScrollView(
+              floatHeaderSlivers: true,
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+              return <Widget>[
+                _customAppBar(context, innerBoxIsScrolled)
+              ];
+            },
+            // body: _MessagesList(context, Colors.blue),
+            body: _MessagesList(context, Colors.blue)
+          ),
+      // CustomScrollView(
+      //   slivers: [
+      //     _customAppBar(context),
+      //     SliverToBoxAdapter(
+      //         child: SizedBox(
+      //             height: _screenHeight - (_statusBarHeight + _sliverAppBarHeight + _bottomNavigationBarHeight),
+      //             child: _MessagesList(context, Colors.blue)
+      //         )
+      //     )
+      //   ],
+      // ),
       drawer: CommunityDrawer(),
     );
   }
 
-  _customAppBar(BuildContext context) {
+  _customAppBar(BuildContext context, bool innerBoxIsScrolled) {
     return SliverAppBar(
       floating: true,
       leading: Builder(
@@ -85,7 +96,7 @@ class _CommunityPageState extends State<CommunityPage>
               ),
             ),
           );
-      }
+        }
       ),
       // FIXME change
       title: const Icon(
@@ -95,18 +106,18 @@ class _CommunityPageState extends State<CommunityPage>
       ),
       centerTitle: true,
       backgroundColor: Colors.white,
-      forceElevated: true,
-      elevation: 1.5,
-      actions: [
-        IconButton(
-            onPressed: () {
-              scrollTo(90);
-            },
-            icon: const Icon(
-              Icons.settings,
-              color: Colors.blue,
-            ))
-      ],
+      forceElevated: innerBoxIsScrolled,
+      elevation: 0.3,
+      // actions: [
+      //   IconButton(
+      //       onPressed: () {
+      //         scrollTo(90);
+      //       },
+      //       icon: const Icon(
+      //         Icons.settings,
+      //         color: Colors.blue,
+      //       ))
+      // ],
     );
   }
 
