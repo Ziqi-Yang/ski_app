@@ -33,10 +33,15 @@ class _TweetDetailsState extends State<TweetDetails> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            _tweet(context)
+            Expanded(
+              child: SingleChildScrollView(
+                  child: _tweet(context)
+              ),
+            ),
+            _bottomTextfield(context)
           ],
         ),
-      )
+      ),
     );
   }
 
@@ -147,6 +152,23 @@ class _TweetDetailsState extends State<TweetDetails> {
     return widget.tweet.hasRt
         ? "assets/images/community_page/retweet_colored.svg"
         : "assets/images/community_page/retweet.svg";
+  }
+
+  _bottomTextfield(BuildContext context){
+    return const SizedBox(
+      width: double.infinity,
+      height: 50.0,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
+        child:TextField(
+          decoration: InputDecoration(hintText: "Tweet your response",
+              suffixIcon: Icon(Icons.camera_alt_outlined,
+                color: Colors.blue,
+              )
+          ),
+        ),
+      )
+    );
   }
 
 }
