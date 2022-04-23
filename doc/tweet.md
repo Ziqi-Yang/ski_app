@@ -14,6 +14,28 @@
   },
   "retweet": 5,
   "fav": 10,
-  "verified": true
+  "replyNum":  2,
+  "verified": true,
+  "hasRt":  false,
+  "hasFav":  false
 }
 ```
+
+## 说明
+
+| **字段**   | **类型**       | **备注**   |
+|----------|--------------|----------|
+| username | String       | NonNull  |
+| userId   | String       | NonNull  |
+| avatar   | String       | NonNull  |
+| message  | String       | NonNull  |
+| pictures | List<String> | Nullable |
+| videos   | List<String> | Nullable |
+| retweet  | int          | NonNull  |
+| fav      | int          | NonNull  |
+| replyNum      | int          | NonNull  |
+| verified | bool         | NonNull  |
+| hasRt      | bool          | NonNull  |
+| hasFav      | bool          | NonNull  |
+
+

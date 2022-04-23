@@ -17,6 +17,9 @@ class Api{
   static const community = home + "community/";
   static const communityTweets = community + "tweets/";
 
+  static const shop = home + "shop/";
+  static const shopIndex = shop + "index";
+
 }
 
 class MyColors {

@@ -1,5 +1,10 @@
 {
   "/setting/null": "/setting",
   "/history/general/null": "/history",
-  "/history/general/null/1": "/history"
+  "/history/general/null/1": "/history",
+  "/history/general/null/2": "/history2",
+  "/history/latest/null": "/fetchData",
+  "/data/null/1": "/single_data",
+  "/community/tweets/test": "/tweets",
+  "/shop/index": "/shop"
 }

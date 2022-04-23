@@ -14,13 +14,14 @@
 - [x] 商店页面用webview暂时开发下
 - [x] fetch_data_page 定时器自动获取数据
 - [x] 为 setting 上半user profile区域设置图片
+- [x] 将商店页面由网页展示改为类似京东界面,只不过点击控件跳转到京东app
 
 - [ ] 实现登陆页面
-- [ ] 给data analysis page 加上 页面加载进度条，不然看起来有点卡顿
+- [ ] tweet details 页面需要加上显示他人的评论
+- [ ] shopping page 把Swiper放在滑动列表里(此处由于商品少，可以考虑shrinkwrap?)
+- [ ] shopping page 点击商品跳转时候判断用户是否安装淘宝，未安装则提示安装
 - [ ] community page 里面的 tweet widget 加上点击图片放大的插件
 - [ ] community page 使用 websocket 接口
-- [ ] 为 tweet detail page 添加评论功能
-- [ ] 将商店页面由网页展示改为类似京东界面,只不过点击控件跳转到京东app
 - [ ] data analysis 的 环形记录指示器 自定义 进度条首尾添加Icon组件(现在发现`syncfushion`有自定义组件的的这)
 - [ ] data analysis 的 circular indicator 中间 添加水波浪效果
 - [ ] 历史数据(滑雪记录)页面重新开发
