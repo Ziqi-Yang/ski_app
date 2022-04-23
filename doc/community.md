@@ -1,13 +1,16 @@
 # 社区模块
 
 ## 数据接口
-接口地址`/community/tweets/`, `websocket`类型 (`userId`在请求包中传递)
+对于直接放userId在url中(不安全)的原因是`websocket`不能自定义请求头(参考[Websocket 能否自定义请求头](https://hgl2.com/2021/websocket-request-header/))  
+
+> 为 WebSocket 做认证的常规方案是：服务端实现一个 ticket ，客户端在建立连接后，发送第一条信息时，在 URL 或 query string 中传递这个 ticket，服务端检查其是否有效。关于 WebSocket 安全相关的信息还可以查看[这篇文章](https://devcenter.heroku.com/articles/websocket-security)。
+
+但是现在暂时不搞那么麻烦  
+
+社区首页接口地址`/community/tweets/userId`, `websocket`类型 (`userId`在请求包中传递)  
+回复的信息接口地址`/community/reply/messageId`, `websocket`类型 (`userId`在请求包中传递)  
 
 返回List<Tweet>类型(类型说明见下方)
-
-## 实现思路
-仿`twitter`  
-
 
 ## Tweet 类型说明
 
