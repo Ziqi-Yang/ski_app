@@ -15,9 +15,9 @@
 - [x] fetch_data_page 定时器自动获取数据
 - [x] 为 setting 上半user profile区域设置图片
 - [x] 将商店页面由网页展示改为类似京东界面,只不过点击控件跳转到京东app
+- [x] tweet details 页面需要加上显示他人的评论
 
 - [ ] 实现登陆页面
-- [ ] tweet details 页面需要加上显示他人的评论
 - [ ] shopping page 把Swiper放在滑动列表里(此处由于商品少，可以考虑shrinkwrap?)
 - [ ] shopping page 点击商品跳转时候判断用户是否安装淘宝，未安装则提示安装
 - [ ] community page 里面的 tweet widget 加上点击图片放大的插件

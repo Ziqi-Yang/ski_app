@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:ski_app/model/community/tweet.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ski_app/pages/communiy_page/tweet_details.dart';
 import 'package:ski_app/widget/common_widget.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class TweetWidget extends StatelessWidget {
   final Tweet tweet;
+  final bool showTopBorder;
 
-  const TweetWidget({Key? key, required this.tweet}) : super(key: key);
+  const TweetWidget({Key? key, required this.tweet, this.showTopBorder = true}) : super(key: key);
 
 
   @override
@@ -17,9 +19,9 @@ class TweetWidget extends StatelessWidget {
       context: context,
       pageChild: TweetDetails(tweet: tweet),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(
-            top: BorderSide(color: Colors.grey, width: 0.5)
+            top: showTopBorder ? BorderSide(color: Colors.grey.shade400, width: 0.5) : BorderSide.none
           )
         ),
         child: Row(
@@ -27,7 +29,7 @@ class TweetWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(14,14,8,14),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(200),
                 child: Image.network(
@@ -38,38 +40,51 @@ class TweetWidget extends StatelessWidget {
             ),
             Expanded(
                 child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB(0, 8, 14, 8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               tweet.username,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontSize: 15,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: Text("@${tweet.userId}"))
+                                child: Text("@${tweet.userId}", style: const TextStyle(
+                                  fontSize: 15
+                                ), overflow: TextOverflow.ellipsis,),)
                           ],
                         ),
-                        Html(data: tweet.message,),
+                        Html(
+                          data: tweet.message,
+                          style: {
+                            "body": Style(
+                                fontSize: const FontSize(16),
+                              margin: const EdgeInsets.symmetric(vertical: 4),
+                              padding: EdgeInsets.zero,
+                            ),
+                          },
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: ClipRRect(
                             borderRadius: const BorderRadius.all(Radius.circular(16)),
-                            child: Image.network(
-                              // FIXME 只实现了加载第一个图片,未能加载则加载百度(哭)
-                              tweet.medias.pictures != null
+                            child: CachedNetworkImage(
+                              imageUrl: tweet.medias.pictures != null
                                   ? tweet.medias.pictures![0]
                                   : "https://wx2.sinaimg.cn/orj360/00337rRAly1gthleo3pyrj60j60j6aan02.jpg",
-                              height: 200,
+                              progressIndicatorBuilder: // TODO 更改加载动画
+                                  (context, url, downloadProgress) => Center(
+                                  child: CircularProgressIndicator(
+                                      value: downloadProgress.progress)),
                               fit: BoxFit.cover,
-                            ),
+                            )
                           ),
                         ),
                         Padding(padding: const EdgeInsets.only(top: 8.0),

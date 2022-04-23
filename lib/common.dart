@@ -16,6 +16,7 @@ class Api{
 
   static const community = home + "community/";
   static const communityTweets = community + "tweets/";
+  static const messageReply = community + "reply/";
 
   static const shop = home + "shop/";
   static const shopIndex = shop + "index";

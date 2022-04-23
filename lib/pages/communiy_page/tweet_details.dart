@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ski_app/model/community/tweet.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ski_app/dao/community/tweets_dao.dart';
+import 'package:ski_app/pages/communiy_page/tweet_widget.dart';
 
 class TweetDetails extends StatefulWidget {
   final Tweet tweet;
+
   const TweetDetails({Key? key, required this.tweet}) : super(key: key);
 
   @override
@@ -12,6 +15,22 @@ class TweetDetails extends StatefulWidget {
 }
 
 class _TweetDetailsState extends State<TweetDetails> {
+  List<Tweet> _replys = [];
+  bool _hasFetched = false;
+
+  @override
+  void initState() {
+    super.initState();
+    ReplyDao.fetch().then((value) {
+      setState(() {
+        _replys.addAll(value);
+        _hasFetched = true;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,21 +40,46 @@ class _TweetDetailsState extends State<TweetDetails> {
         foregroundColor: Colors.black,
         elevation: .3,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("   社区", style: TextStyle(fontSize: 23),),
+        title: const Text(
+          "   社区",
+          style: TextStyle(fontSize: 23),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                  child: _tweet(context)
-              ),
+              child: ListView.builder(
+                  itemCount: _replys.length + 1, // 开始还有一个 _tweet
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == 0) {
+                      // _tweet
+                      if (_replys.isEmpty && _hasFetched == false){
+                        return Column(
+                          children: [
+                            _tweet(context),
+                            const CircularProgressIndicator(
+                            )
+                          ],
+                        );
+                      } else {
+                        return _tweet(context);
+                      }
+                    } else if (index == 1) {
+                      return TweetWidget(
+                        tweet: _replys[index - 1],
+                        showTopBorder: false,
+                      );
+                    } else {
+                      return TweetWidget(tweet: _replys[index - 1]);
+                    }
+                  }),
             ),
             _bottomTextfield(context)
           ],
@@ -44,37 +88,42 @@ class _TweetDetailsState extends State<TweetDetails> {
     );
   }
 
-  _tweet(BuildContext context){
+  _tweet(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(200),
-                child: Image.network(
-                  widget.tweet.avatar,
-                  width: 65,
-                ),
-              ),
-              const SizedBox(width: 18,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.tweet.username,
-                    style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(200),
+                  child: Image.network(
+                    widget.tweet.avatar,
+                    width: 65,
                   ),
-                  Text("@${widget.tweet.userId}", style: const TextStyle(fontSize: 16),)
-                ],
-              ),
-            ],
-          )
-        ),
+                ),
+                const SizedBox(
+                  width: 18,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.tweet.username,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 18),
+                    ),
+                    Text(
+                      "@${widget.tweet.userId}",
+                      style: const TextStyle(fontSize: 16),
+                    )
+                  ],
+                ),
+              ],
+            )),
         Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Column(
@@ -82,15 +131,13 @@ class _TweetDetailsState extends State<TweetDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Html(data: widget.tweet.message,
-                  style: {
-                    "body": Style(
-                      fontSize: const FontSize(20)
-                    )
-                  },
+                Html(
+                  data: widget.tweet.message,
+                  style: {"body": Style(fontSize: const FontSize(20))},
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(16)),
                     child: Image.network(
@@ -98,47 +145,64 @@ class _TweetDetailsState extends State<TweetDetails> {
                       widget.tweet.medias.pictures != null
                           ? widget.tweet.medias.pictures![0]
                           : "https://wx2.sinaimg.cn/orj360/00337rRAly1gthleo3pyrj60j60j6aan02.jpg",
-                      height: 200,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 const Divider(),
-                RichText(text: TextSpan(
-                  style: const TextStyle(fontSize: 18, color: Colors.black),
-                  children: <TextSpan>[
-                    TextSpan(text: " ${widget.tweet.retweet}", style: const TextStyle(fontWeight: FontWeight.bold)),
-                    const TextSpan(text: " 转发"),
-                    TextSpan(text: " ${widget.tweet.fav}", style: const TextStyle(fontWeight: FontWeight.bold)),
-                    const TextSpan(text: " 喜欢"),
-                  ]
-                )),
+                RichText(
+                    text: TextSpan(
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.black),
+                        children: <TextSpan>[
+                      TextSpan(
+                          text: " ${widget.tweet.retweet}",
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const TextSpan(text: " 转发"),
+                      TextSpan(
+                          text: " ${widget.tweet.fav}",
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const TextSpan(text: " 喜欢"),
+                    ])),
                 const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _button(context: context, // reply
-                        svgIconPath: "assets/images/community_page/chatbubble-ellipses-outline.svg",),
-                    _button(context: context, // retweet
-                        svgIconPath: _rtIconPath,),
-                    _button(context: context, // heart
-                        svgIconPath: _favIconPath,),
-                    _button(context: context, // share
-                        svgIconPath: "assets/images/community_page/share-social-outline.svg",),
-                  ],
-                )
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _button(
+                        context: context, // reply
+                        svgIconPath:
+                            "assets/images/community_page/chatbubble-ellipses-outline.svg",
+                      ),
+                      _button(
+                        context: context, // retweet
+                        svgIconPath: _rtIconPath,
+                      ),
+                      _button(
+                        context: context, // heart
+                        svgIconPath: _favIconPath,
+                      ),
+                      _button(
+                        context: context, // share
+                        svgIconPath:
+                            "assets/images/community_page/share-social-outline.svg",
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(),
               ],
             ))
       ],
     );
   }
 
-
-  _button({required BuildContext context, required String svgIconPath}){
-      return SvgPicture.asset(
-        svgIconPath,
-        height: 24,
-      );
+  _button({required BuildContext context, required String svgIconPath}) {
+    return SvgPicture.asset(
+      svgIconPath,
+      height: 24,
+    );
   }
 
   get _favIconPath {
@@ -153,21 +217,20 @@ class _TweetDetailsState extends State<TweetDetails> {
         : "assets/images/community_page/retweet.svg";
   }
 
-  _bottomTextfield(BuildContext context){
+  _bottomTextfield(BuildContext context) {
     return const SizedBox(
-      width: double.infinity,
-      height: 50.0,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
-        child:TextField(
-          decoration: InputDecoration(hintText: "Tweet your response",
-              suffixIcon: Icon(Icons.camera_alt_outlined,
-                color: Colors.blue,
-              )
+        width: double.infinity,
+        height: 50.0,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
+          child: TextField(
+            decoration: InputDecoration(
+                hintText: "发布回复消息",
+                suffixIcon: Icon(
+                  Icons.camera_alt_outlined,
+                  color: Colors.blue,
+                )),
           ),
-        ),
-      )
-    );
+        ));
   }
-
 }

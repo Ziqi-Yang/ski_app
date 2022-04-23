@@ -31,10 +31,9 @@ class _CommunityPageState extends State<CommunityPage>
       setState(() {
         _tweets.addAll(value);
       });
+    }).catchError((e){
+      print(e);
     });
-    //     .catchError((e){
-    //   print(e);
-    // });
   }
 
   void scrollTo(int index) => _itemScrollController.scrollTo(
@@ -62,7 +61,7 @@ class _CommunityPageState extends State<CommunityPage>
               ];
             },
             // body: _MessagesList(context, Colors.blue),
-            body: _MessagesList(context, Colors.blue)
+            body: _MessagesList(context)
           ),
       // CustomScrollView(
       //   slivers: [
@@ -107,21 +106,11 @@ class _CommunityPageState extends State<CommunityPage>
       centerTitle: true,
       backgroundColor: Colors.white,
       forceElevated: innerBoxIsScrolled,
-      elevation: 0.3,
-      // actions: [
-      //   IconButton(
-      //       onPressed: () {
-      //         scrollTo(90);
-      //       },
-      //       icon: const Icon(
-      //         Icons.settings,
-      //         color: Colors.blue,
-      //       ))
-      // ],
+      elevation: .6,
     );
   }
 
-  _MessagesList(BuildContext context, Color color) {
+  _MessagesList(BuildContext context) {
     return ScrollablePositionedList.builder(
         // itemPositionsListener: ,
         itemScrollController: _itemScrollController,

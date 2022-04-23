@@ -62,9 +62,9 @@
       "userId": "LeonardoZarkli",
       "verified": true,
       "avatar": "https://img3.sycdn.imooc.com/61c58ca10001966a09600960-140-140.jpg",
-      "message": "This video will teach you all the relevant concepts you need to build a solid app with the clean architectural guidelines. You'll learn to use dependency injection with Dagger-Hilt, SOLID principles, CSV parsing with OpenCSV, working with remote APIs using Retrofit, local caching with Room, custom drawing on a canvas using Compose and much more. <br> What Should We <i>Do</i>?",
+      "message": "This <span style='color: red'>video</span> will teach you all the relevant concepts you need to build a solid app with the clean architectural guidelines. You'll learn to use dependency injection with Dagger-Hilt, SOLID principles, CSV parsing with OpenCSV, working with remote APIs using Retrofit, local caching with Room, custom drawing on a canvas using Compose and much more. <br> What Should We <i>Do</i>?",
       "medias": {
-        "pictures": ["https://wx1.sinaimg.cn/orj360/d19f18a8ly1h162g18mbsj20u016d44a.jpg"],
+        "pictures": ["https://i0.hdslb.com/bfs/article/830c70f7108ebec18217ea99738c3b6bc8cdd089.jpg@1256w_898h_progressive.webp"],
         "videos": null
       },
       "retweet": 5,
@@ -81,7 +81,7 @@
       "avatar": "https://i1.hdslb.com/bfs/face/06de76e5aed72e3d42445fea5c711c77befcc90f.jpg@96w_96h_1c_1s.webp",
       "message": "This video will teach you all the relevant concepts you need to build a solid app with the clean architectural guidelines. You'll learn to use dependency injection with Dagger-Hilt, SOLID principles, CSV parsing with OpenCSV, working with remote APIs using Retrofit, local caching with Room, custom drawing on a canvas using Compose and much more. <br> What Should We <strong>Do</strong>?",
       "medias": {
-        "pictures": ["https://wx2.sinaimg.cn/orj360/76abfe8bly1h165cikagcj21hc0u0akq.jpg"],
+        "pictures": ["https://bkimg.cdn.bcebos.com/pic/242dd42a2834349bcc90200bc3ea15ce37d3beae?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U5Mg==,g_7,xp_5,yp_5/format,f_auto"],
         "videos": null
       },
       "retweet": 5,
@@ -97,7 +97,7 @@
       "avatar": "https://i2.hdslb.com/bfs/app/8920e6741fc2808cce5b81bc27abdbda291655d3.png@240w_240h_1c_1s.webp",
       "message": "This video will teach you all the relevant concepts you need to build a solid app with the clean architectural guidelines. You'll learn to use dependency injection with Dagger-Hilt, SOLID principles, CSV parsing with OpenCSV, working with remote APIs using Retrofit, local caching with Room, custom drawing on a canvas using Compose and much more. <br> What Should We <i>Do</i>?",
       "medias": {
-        "pictures": ["https://wx1.sinaimg.cn/orj360/d70e5668gy1h114lrwv8cj20wg1a1dnr.jpg"],
+        "pictures": ["https://i0.hdslb.com/bfs/article/8a6d64eab140f81fb5b5aeebb1f41c683566cfac.jpg@1256w_838h_progressive.webp"],
         "videos": null
       },
       "retweet": 5,
