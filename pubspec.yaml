@@ -46,7 +46,8 @@ dependencies:
   flutter_svg: ^0.23.0+1 # 加载svg,  由于 flutter_html库依赖，要小于1.0.0版本
   route_animation_helper: ^2.0.0+7 # 页面切换动画效果
   card_swiper: ^2.0.3 # 轮播图, 在shopping page有用到
-  url_launcher: ^6.0.20 # 打开外部链接, 在shopping page中用于打开京东链接
+  url_launcher: ^6.0.20 # 打开外部链接, 在shopping page中用于跳转到淘宝
+  modal_bottom_sheet: ^2.0.1 # 底部的sheet, setting page有使用
 
 dev_dependencies:
   flutter_test:

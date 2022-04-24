@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ski_app/pages/communiy_page/community_page.dart';
 import 'package:ski_app/pages/home_page.dart';
-import 'package:ski_app/pages/setting_page.dart';
+import 'package:ski_app/pages/setting_page/setting_page.dart';
 import 'package:ski_app/pages/shopping_page.dart';
 
 class TabNavigator extends StatefulWidget {

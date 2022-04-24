@@ -13,4 +13,21 @@ class CommonWidget {
       child: child,
     );
   }
+
+}
+
+funcNotSupportDialog(BuildContext context){
+  showDialog(context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("错误", style: TextStyle(color: Colors.redAccent,
+            fontSize: 22, fontWeight: FontWeight.bold
+        ),),
+        content: const Text("该功能暂未实现"),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.of(context).pop();
+          }, child: const Text("关闭"))
+        ],
+      )
+  );
 }
