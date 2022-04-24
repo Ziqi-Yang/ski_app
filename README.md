@@ -16,8 +16,9 @@
 - [x] 为 setting 上半user profile区域设置图片
 - [x] 将商店页面由网页展示改为类似京东界面,只不过点击控件跳转到京东app
 - [x] tweet details 页面需要加上显示他人的评论
+- [x] 实现登陆页面UI
 
-- [ ] 实现登陆页面
+- [ ] 登陆界面交互
 - [ ] shopping page 把Swiper放在滑动列表里(此处由于商品少，可以考虑shrinkwrap?)
 - [ ] shopping page 点击商品跳转时候判断用户是否安装淘宝，未安装则提示安装
 - [ ] community page 里面的 tweet widget 加上点击图片放大的插件
@@ -37,3 +38,24 @@
 - [ ] community_page 使用 `scrollable_positioned_list` 插件,
   导致 `customScrollView`或者`NestedScrollView` 顶部的 SliverAppBar无法float
 - [ ] 断网后没获取到数据应该要重新尝试获取数据
+
+
+## 需求
+
+### 图片
+
+1. `splash screen`
+   requirement:
+> It must be a png file and should be sized for 4x pixel density.
+
+example:
+![](./assets/splash.png)
+
+[演示](https://pub.dev/packages/flutter_native_splash)
+
+2. App Icon 
+   > low:medium:high:extra-high:extra-extra-high=3:4:6:8:12
+   
+需要 `36x36`, `48x48`, `72x72`, `96x96`, `144x144` 比例的`png`图片
+
+顺便也提供下透明背景的其他地方有用
