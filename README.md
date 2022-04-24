@@ -36,3 +36,4 @@
   
 - [ ] community_page 使用 `scrollable_positioned_list` 插件,
   导致 `customScrollView`或者`NestedScrollView` 顶部的 SliverAppBar无法float
+- [ ] 断网后没获取到数据应该要重新尝试获取数据

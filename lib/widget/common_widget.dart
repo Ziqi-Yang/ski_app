@@ -6,14 +6,19 @@ class CommonWidget {
     required Widget pageChild, required Widget child, AnimType animTape = AnimType.slideStart}){
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, RouteAnimationHelper.createRoute(buildContext: context,
-            destination: pageChild, animType: animTape
-        ));
+        onTapSlide(context: context, pageChild: pageChild, animTape: animTape);
       },
       child: child,
     );
   }
 
+}
+
+onTapSlide({required BuildContext context,
+  required Widget pageChild, AnimType animTape = AnimType.slideStart}){
+  Navigator.push(context, RouteAnimationHelper.createRoute(buildContext: context,
+      destination: pageChild, animType: animTape
+  ));
 }
 
 funcNotSupportDialog(BuildContext context){
@@ -31,3 +36,5 @@ funcNotSupportDialog(BuildContext context){
       )
   );
 }
+
+
