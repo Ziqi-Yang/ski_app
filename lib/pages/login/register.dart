@@ -40,17 +40,6 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
 
-            // SizedBox(height: size.height * 0.03),
-            //
-            // Container(
-            //   alignment: Alignment.center,
-            //   margin: const EdgeInsets.symmetric(horizontal: 40),
-            //   child: const TextField(
-            //     decoration: InputDecoration(
-            //         labelText: "电话"
-            //     ),
-            //   ),
-            // ),
 
             SizedBox(height: size.height * 0.03),
 
@@ -61,6 +50,7 @@ class RegisterScreen extends StatelessWidget {
                 decoration: InputDecoration(
                     labelText: "邮箱"
                 ),
+                keyboardType: TextInputType.emailAddress,
               ),
             ),
 

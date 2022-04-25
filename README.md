@@ -49,7 +49,7 @@
 > It must be a png file and should be sized for 4x pixel density.
 
 example:
-![](./assets/splash.png)
+![](./assets/splash_test.png)
 
 [演示](https://pub.dev/packages/flutter_native_splash)
 

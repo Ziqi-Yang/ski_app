@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 40),
               child: const TextField(
                 decoration: InputDecoration(
-                    labelText: "用户名"
+                    labelText: "用户名或邮箱"
                 ),
               ),
             ),
