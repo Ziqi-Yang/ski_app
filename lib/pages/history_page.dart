@@ -31,7 +31,7 @@ class _HistoryPageState extends State<HistoryPage> {
             headerStyle: const CalendarHeaderStyle(
               textStyle: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)
             ),
-            cellBorderColor: Colors.black38,
+            // cellBorderColor: Colors.black38,
             dataSource: ItemsDataSource(source: _getDataSource()),
             selectionDecoration: BoxDecoration(
               color: Colors.transparent,
@@ -57,52 +57,35 @@ class _HistoryPageState extends State<HistoryPage> {
     String endTime = timeFormatter.format(detail.to);
     bool isFav = detail.isFav;
 
-    return Container( // FIXME 加入onTap功能
+    return Container(
       margin: const EdgeInsets.only(right: 8),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 2),],
-        color: detail.color,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
-        child: Row(
+      child: Row(
           children: [
-            Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("${detail.score} 分", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    Text("开始: $startTime  结束: $endTime", style: TextStyle(color: Colors.white.withAlpha(220)),)
-                  ],
-                ),
-            ),
+            Expanded(child: Container( // FIXME 加入onTap功能
+              padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 2),],
+                color: detail.color,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${detail.score} 分", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                  Text("开始: $startTime  结束: $endTime", style: TextStyle(color: Colors.white.withAlpha(220)),)
+                ],
+              ),
+            )),
             GestureDetector(
               onTap: (){},
-              child: Padding(
-                padding: const EdgeInsets.all(4),
-                child: Container(
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white,
-                            blurRadius: 6.0,
-                          ),
-                        ]
-                    ),
-                    child: const Icon(
-                      Icons.favorite,
-                      color: Colors.redAccent,
-                      size:20,
-                    )
-                ),
+              child: IconButton(
+                onPressed: (){},
+                icon: isFav ? const Icon(Icons.favorite) : const Icon(Icons.favorite_outline),
+                color: Colors.red,
               ),
             )
           ],
-        )
-      )
-    );
+        )    );
   }
 
   List<Item> _getDataSource() {
@@ -114,7 +97,7 @@ class _HistoryPageState extends State<HistoryPage> {
     items.add(
         Item(70, startTime, endTime, Colors.blueAccent, false));
     items.add(
-        Item(65, startTime, endTime, Colors.deepOrangeAccent, false));
+        Item(65, startTime, endTime, Colors.deepOrangeAccent, true));
     return items;
   }
 }
@@ -122,6 +105,11 @@ class _HistoryPageState extends State<HistoryPage> {
 class ItemsDataSource extends CalendarDataSource {
   List<Item> source;
   ItemsDataSource({required this.source});
+
+  // FIXME 加上load more功能
+  // 在_getDataSource区域应获取和当前时间在一块区域的数据, 这里获取之后的数据
+  // https://help.syncfusion.com/flutter/calendar/load-more
+  // https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/calendar/calendar_loadmore.dart
 
   @override
   List<dynamic> get appointments => source;
