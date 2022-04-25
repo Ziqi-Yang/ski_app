@@ -19,8 +19,12 @@
 - [x] 实现登陆页面UI
 
 - [ ] 登陆界面交互
+- [ ] 历史数据界面加上加上添加/显示收藏
+- [ ] 添加检测更新功能
+- [ ] 更换加载特效(如使用滑雪的人的gif而不是使用) https://github.com/LaoMengFlutter/flutter-do
 - [ ] shopping page 把Swiper放在滑动列表里(此处由于商品少，可以考虑shrinkwrap?)
-- [ ] shopping page 点击商品跳转时候判断用户是否安装淘宝，未安装则提示安装
+- [ ] shopping page 点击商品跳转(在跳转前先显示正在加载)时候判断用户是否安装淘宝(判断打开链接失败)，未安装则提示安装
+- [ ] shopping page 使用微光加载特效(`shimmer`)
 - [ ] community page 里面的 tweet widget 加上点击图片放大的插件
 - [ ] community page 使用 websocket 接口
 - [ ] data analysis 的 环形记录指示器 自定义 进度条首尾添加Icon组件(现在发现`syncfushion`有自定义组件的的这)
@@ -44,7 +48,7 @@
 
 ### 图片
 
-1. `splash screen`
+1. [x] splash screen
    requirement:
 > It must be a png file and should be sized for 4x pixel density.
 
@@ -53,7 +57,7 @@ example:
 
 [演示](https://pub.dev/packages/flutter_native_splash)
 
-2. App Icon 
+2. [x] App Icon 
    > low:medium:high:extra-high:extra-extra-high=3:4:6:8:12
    
 需要 `36x36`, `48x48`, `72x72`, `96x96`, `144x144` 比例的`png`图片

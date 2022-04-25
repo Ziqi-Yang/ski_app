@@ -1,158 +1,160 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ski_app/dao/history_general_dao.dart';
-import 'package:ski_app/model/history_general_model.dart';
-import 'package:ski_app/widget/common_widget.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class HistoryPage extends StatefulWidget {
-  final bool showAppBar;
-  final bool showBackButton;
-  final String userId;
-  final String customTitle;
-  const HistoryPage({Key? key, this.showAppBar = true, this.showBackButton = false,
-    this.userId = "null", this.customTitle = "历史记录"}) : super(key: key);
+  const HistoryPage({Key? key}) : super(key: key);
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  final ScrollController _controller = ScrollController();
-  // HistoryGeneralModel? historyGeneralModel;
-  bool shouldGetHistory = true;
-  int historyNextPage = 1;
-
-  // 应该实现一个双向列表
-  List historyDates = [];
-  List historyDatas = []; // 数据和 historyDates 对应
-
-  Future<void> _getOlderData() async{
-    // NOTICE 获取旧的数据，适合向下拉
-    HistoryGeneralDao.fetch(widget.userId, historyNextPage).then((hisModel){
-      if (shouldGetHistory){
-        List tmpDates = hisModel.data.keys.toList();
-        setState(() {
-          historyDates.addAll(tmpDates);
-          for (String date in tmpDates){
-            print(date);
-            historyDatas.add(hisModel.data[date]);
-          }
-        });
-
-        if (hisModel.next != null){
-          historyNextPage = hisModel.next!;
-        } else {
-          shouldGetHistory = false;
-        }
-      }
-    }).catchError((e){
-      print(e);
-    });
-  }
-
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() {
-      int offset = _controller.position.pixels.toInt();
-      if (_controller.position.pixels == _controller.position.maxScrollExtent) {
-        print("滑动到底部");
-        // FIXME 添加刷新列表操作
-      }
-    });
-    _getOlderData();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: (){
-          // FIXME 这里的函数应该是重新获取全部数据(因为最新数据在上面)
-          return _getOlderData(); // must return a Future stuff, so return Future null or void
-        },
-        child: CustomScrollView(
-          controller: _controller,
-          physics: const AlwaysScrollableScrollPhysics(), // 任何时候都能刷新
-          slivers: [
-            widget.showAppBar ?
-            SliverAppBar(
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              title: Text(widget.customTitle),
-              leading: !widget.showBackButton ? null : IconButton(onPressed: (){
-                Navigator.pop(context);
-              }, icon: const Icon(Icons.arrow_back)),
-              actions: [
-                PopupMenuButton(itemBuilder: (context){
-                  return [
-                    const PopupMenuItem(
-                      // TODO 添加 onTap功能
-                      child: Text("刷新", style: TextStyle(fontWeight: FontWeight.bold),),
+      appBar: AppBar(
+        title: const Text("历史数据"),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 1,
+      ),
+        body: SafeArea(
+          child: SfCalendar(
+            view: CalendarView.month,
+            firstDayOfWeek: 1,
+            showDatePickerButton: true,
+            showNavigationArrow: true,
+            headerStyle: const CalendarHeaderStyle(
+              textStyle: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)
+            ),
+            cellBorderColor: Colors.black38,
+            dataSource: ItemsDataSource(source: _getDataSource()),
+            selectionDecoration: BoxDecoration(
+              color: Colors.transparent,
+              border: Border.all(color: Colors.blueAccent, width: 2),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              shape: BoxShape.rectangle,
+            ),
+            initialSelectedDate: DateTime.now(),
+            monthViewSettings: const MonthViewSettings(
+                appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+                showAgenda: true
+            ),
+            appointmentBuilder: _itemBuilder,
+          )
+          )
+        );
+  }
+
+  Widget _itemBuilder(BuildContext context, CalendarAppointmentDetails details){
+    Item detail = details.appointments.first;
+    DateFormat timeFormatter = DateFormat("HH:MM");
+    String startTime = timeFormatter.format(detail.from);
+    String endTime = timeFormatter.format(detail.to);
+    bool isFav = detail.isFav;
+
+    return Container( // FIXME 加入onTap功能
+      margin: const EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 2),],
+        color: detail.color,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
+        child: Row(
+          children: [
+            Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${detail.score} 分", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                    Text("开始: $startTime  结束: $endTime", style: TextStyle(color: Colors.white.withAlpha(220)),)
+                  ],
+                ),
+            ),
+            GestureDetector(
+              onTap: (){},
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Container(
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white,
+                            blurRadius: 6.0,
+                          ),
+                        ]
+                    ),
+                    child: const Icon(
+                      Icons.favorite,
+                      color: Colors.redAccent,
+                      size:20,
                     )
-                  ];
-                })
-              ],
-              floating: true,
-            ): const SliverToBoxAdapter(child: SizedBox(height: 30,),),
-            if (historyDates != [])
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (context, index) => _expansionTileDay(context, historyDates[index], historyDatas[index]),
-                  // childCount: historyGeneralModel!.data.length,
-                  childCount: historyDates.length
                 ),
               ),
+            )
           ],
-        ),
+        )
       )
     );
   }
 
-  _expansionTileDay(BuildContext context, String date, List<HistoryGeneralCommonItem> datas) {
-    List<Widget> items = [];
-    for (var data in datas){
-      items.add(
-          CommonWidget.ontapSlideRoute(
-              context: context,
-            pageChild: Text("test"), // FIXME
-            child: ListTile(
-              leading: const Icon(Icons.double_arrow),
-              title: RichText(
-                text: TextSpan(
-                  style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-                  children: [
-                    TextSpan(text: "${data.score}", style: const TextStyle(color: Colors.orangeAccent)),
-                    const TextSpan(text: " 分", style: TextStyle(fontSize: 18))
-                  ]
-                ),
-              ),
-              subtitle: RichText(
-                text: TextSpan(
-                  style: const TextStyle(color: Colors.grey),
-                  children: [
-                    const WidgetSpan(child: Icon(Icons.schedule)),
-                    TextSpan(text: data.startTime),
-                    const TextSpan(text: "   "),
+  List<Item> _getDataSource() {
+    final List<Item> items = <Item>[];
+    final DateTime today = DateTime.now();
+    final DateTime startTime =
+    DateTime(today.year, today.month, today.day, 9, 0, 0);
+    final DateTime endTime = startTime.add(const Duration(hours: 2));
+    items.add(
+        Item(70, startTime, endTime, Colors.blueAccent, false));
+    items.add(
+        Item(65, startTime, endTime, Colors.deepOrangeAccent, false));
+    return items;
+  }
+}
 
-                    const WidgetSpan(child: Icon(Icons.restore)),
-                    TextSpan(text: data.lastTime),
-                    const TextSpan(text: "   "),
+class ItemsDataSource extends CalendarDataSource {
+  List<Item> source;
+  ItemsDataSource({required this.source});
 
-                    const WidgetSpan(child: Icon(Icons.bolt)),
-                    TextSpan(text: "${data.speed}"),
-                    const TextSpan(text: "   "),
-                  ]
-                ),
-              ),
-            )
-          ));
-    }
-    return ExpansionTile(
-      title: Text(date, style: const TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.w600),),
-      children: items,
-    );
+  @override
+  List<dynamic> get appointments => source;
+
+  @override
+  DateTime getStartTime(int index) {
+    return source[index].from;
   }
 
+  @override
+  DateTime getEndTime(int index) {
+    return source[index].to;
+  }
+
+  @override
+  String getSubject(int index) {
+    return source[index].score.toString();
+  }
+
+  @override
+  Color getColor(int index) {
+    return source[index].color;
+  }
 }
+
+
+class Item {
+  final int score;
+  final DateTime from;
+  final DateTime to;
+  final Color color;
+  final bool isFav;
+
+  Item(this.score, this.from, this.to, this.color, this.isFav);
+}
+

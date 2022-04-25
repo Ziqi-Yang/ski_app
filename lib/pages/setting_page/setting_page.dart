@@ -202,21 +202,16 @@ class _SettingPageState extends State<SettingPage>
 
   _functionArea(BuildContext context) {
     return <Widget>[
-      ListTile(
+      CommonWidget.ontapSlideRoute(context: context,
+    pageChild: const HistoryPage(),
+    child: ListTile(
         leading: const Icon(Icons.history),
         title: Text(
           "历史数据",
           style: Theme.of(context).textTheme.bodyText1,
         ),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const HistoryPage(
-              showBackButton: true,
-            );
-          }));
-        },
       )
-    ];
+    )];
   }
 
   _generalSettings(BuildContext context) {

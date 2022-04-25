@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   http: ^0.13.4 # http 请求
   timelines: ^0.1.0 # 主页fetch_data页面
@@ -48,6 +50,8 @@ dependencies:
   card_swiper: ^2.0.3 # 轮播图, 在shopping page有用到
   url_launcher: ^6.0.20 # 打开外部链接, 在shopping page中用于跳转到淘宝
   modal_bottom_sheet: ^2.0.1 # 底部的sheet, setting page有使用
+  syncfusion_flutter_calendar: ^20.1.50 # month agenda view 适合展示 history data
+  syncfusion_localizations: ^20.1.50 # 为calendar 添加中文支持
 
 dev_dependencies:
   flutter_test:
