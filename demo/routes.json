@@ -7,5 +7,6 @@
   "/data/null/1": "/single_data",
   "/community/tweets/test": "/tweets",
   "/community/reply/test": "/tweets",
-  "/shop/index": "/shop"
+  "/shop/index": "/shop",
+  "/app/version/latest": "/latest_version"
 }

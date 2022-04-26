@@ -21,6 +21,7 @@ class Api{
   static const shop = home + "shop/";
   static const shopIndex = shop + "index";
 
+  static const latestVersion = home + "app/version/latest";
 }
 
 class MyColors {

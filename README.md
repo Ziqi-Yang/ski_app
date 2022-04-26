@@ -21,6 +21,7 @@
 - [x] 修改 splash screen 图片
 
 - [ ] 登陆界面交互
+- [ ] 将 `http` 库换成 `dio` 库
 - [ ] 历史数据界面加上加上添加/显示收藏
 - [ ] 添加检测更新功能
 - [ ] 更换加载特效(如使用滑雪的人的gif而不是使用) https://github.com/LaoMengFlutter/flutter-do
@@ -42,6 +43,9 @@
 - [ ] community_page 使用 `scrollable_positioned_list` 插件,
   导致 `customScrollView`或者`NestedScrollView` 顶部的 SliverAppBar无法float
 - [ ] 断网后没获取到数据应该要重新尝试获取数据
+- setting page 升级模块问题, 但不影响使用
+    - [ ] `setState() Called After Dispose()`
+    - [ ] 有些时候没下载也会print出connect error的错误, 或许是`r_upgrade`插件的问题
 
 
 ## 需求

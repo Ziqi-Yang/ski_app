@@ -38,3 +38,30 @@ funcNotSupportDialog(BuildContext context){
 }
 
 
+requestPermission(BuildContext context, String permissionName, String explanation,
+    void Function() func){
+  showDialog(context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("权限申请", style: TextStyle(color: Colors.redAccent,
+            fontSize: 22, fontWeight: FontWeight.bold
+        ),),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(permissionName, style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
+            Text(explanation),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.of(context).pop();
+          }, child: const Text("取消")),
+          TextButton(onPressed: (){
+            func();
+          }, child: const Text("允许"))
+        ],
+      )
+  );
+}
+

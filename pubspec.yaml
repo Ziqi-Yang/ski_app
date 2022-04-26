@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 0.0.2+1
 
 environment:
   sdk: ">=2.15.1 <3.0.0"
@@ -39,7 +39,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.1.47+1 # data_analysis 页面 速度-路程 折线图
   video_player: ^2.3.0 # data_analysis 页面用于展示渲染好的视频
   chewie: ^1.3.1 # 视频播放, 开箱即用, 依赖于flutter官方的video_player插件
-  scrollable_positioned_list: ^0.2.3
+  scrollable_positioned_list: ^0.2.3 # 可以定位和可视范围锚点的滑动组件, 用于 community_page
   flutter_native_splash: ^2.1.3+1 # 自定义启动页图案，需要手动运行
   flutter_launcher_icons: ^0.9.2 # 创建应用图标, 需要手动运行
   flutter_html: ^2.2.1 # community_page 解析message
@@ -52,6 +52,10 @@ dependencies:
   modal_bottom_sheet: ^2.0.1 # 底部的sheet, setting page有使用
   syncfusion_flutter_calendar: ^20.1.50 # month agenda view 适合展示 history data
   syncfusion_localizations: ^20.1.50 # 为calendar 添加中文支持
+  r_upgrade: ^0.3.8+1 # 用来升级软件, setting page有用
+  permission_handler: ^9.2.0 # 动态权限申请
+  package_info_plus: ^1.4.2 # 用于获取App的信息, 在 setting page 的 更新模块中有用到
+
 
 dev_dependencies:
   flutter_test:

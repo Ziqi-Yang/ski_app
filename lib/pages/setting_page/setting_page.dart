@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:ski_app/common.dart' show MyColors;
-import 'package:ski_app/dao/setting_dao.dart';
+import 'package:ski_app/common.dart' show MyColors, Api;
+import 'package:ski_app/dao/setting/setting_dao.dart';
 import 'package:ski_app/model/setting_model.dart';
 import 'package:ski_app/pages/history_page.dart';
 import 'package:ski_app/pages/setting_page/account_sheet.dart';
 import 'package:ski_app/widget/common_widget.dart';
 import 'package:ski_app/widget/floating_bottom_sheet.dart';
 import 'package:ski_app/pages/setting_page/setting_card.dart';
+
+import 'package:r_upgrade/r_upgrade.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -19,6 +25,12 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage>
     with AutomaticKeepAliveClientMixin {
   final Color _profileFontColor = Colors.black; // 避免与背景冲突
+  bool _isDownloading = false;
+  double _upgradeDownloadPercent = 0.0;
+  double _upgradeDownloadSpeed = 0.0;
+  double _upgradeDownloadLeftTime = 0.0;
+  int? _upgradeDownloadId;
+  late String _curAppVersion;
 
   SettingModel? settingModel;
 
@@ -35,10 +47,28 @@ class _SettingPageState extends State<SettingPage>
     });
   }
 
+  // 获取app信息
+  _appInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    _curAppVersion = packageInfo.version;
+  }
+
+  _fetchLatestAppVersion() async {
+    var url = Uri.parse(Api.latestVersion);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      Utf8Decoder utf8decoder = const Utf8Decoder();
+      return json.decode(utf8decoder.convert(response.bodyBytes));
+    } else {
+      throw Exception("Failed to fetch latest version.");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _loadData();
+    _appInfo();
   }
 
   @override
@@ -202,36 +232,155 @@ class _SettingPageState extends State<SettingPage>
 
   _functionArea(BuildContext context) {
     return <Widget>[
-      CommonWidget.ontapSlideRoute(context: context,
-    pageChild: const HistoryPage(),
-    child: ListTile(
-        leading: const Icon(Icons.history),
-        title: Text(
-          "历史数据",
-          style: Theme.of(context).textTheme.bodyText1,
-        ),
-      )
-    )];
+      CommonWidget.ontapSlideRoute(
+          context: context,
+          pageChild: const HistoryPage(),
+          child: ListTile(
+            leading: const Icon(Icons.history),
+            title: Text(
+              "历史数据",
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ))
+    ];
   }
 
   _generalSettings(BuildContext context) {
     return <Widget>[
-      _tile(context, Icons.account_circle, "账户",
-              () => showFloatingModalBottomSheet(context: context,
-    builder: (context) => const AccountSheet())
-      ),
-      _tile(context, Icons.light_mode, "主题",(){funcNotSupportDialog(context);}),
-      _tile(context, Icons.language, "语言",(){funcNotSupportDialog(context);}),
+      _tile(
+          context,
+          Icons.account_circle,
+          "账户",
+          () => showFloatingModalBottomSheet(
+              context: context, builder: (context) => const AccountSheet())),
+      _tile(context, Icons.light_mode, "主题", () {
+        funcNotSupportDialog(context);
+      }),
+      _tile(context, Icons.language, "语言", () {
+        funcNotSupportDialog(context);
+      }),
+      _tile(context, Icons.upgrade_rounded, "检查更新", () {
+        _requestUpgrade();
+      }),
     ];
   }
 
-  _tile(BuildContext context, IconData iconData, String text, void Function()? func){
+  _tile(BuildContext context, IconData iconData, String text,
+      void Function()? func) {
     return ListTile(
       leading: Icon(iconData),
       title: Text(
-        text, style: Theme.of(context).textTheme.bodyText1,
+        text,
+        style: Theme.of(context).textTheme.bodyText1,
       ),
       onTap: func,
     );
   }
+
+  void _requestUpgrade() async {
+    // https://github.com/Baseflow/flutter-permission-handler/issues/751
+    var status = Permission.requestInstallPackages.status;
+    if (await status.isDenied) {
+      requestPermission(context, "安装应用的权限", "用于软件升级", () {
+        Permission.requestInstallPackages.request();
+      });
+    } else if (await status.isGranted) {
+      Map<String, dynamic> latestApp = await _fetchLatestAppVersion();
+      bool hasNewVersion = isUpdateVersion(latestApp["version"], _curAppVersion);
+      _upgradeDialog(hasNewVersion, latestApp["version"], latestApp["url"]);
+      // upgrade();
+    }
+  }
+
+
+  _upgradeDialog(bool hasNewVersion, String newVersion, String upgradeUrl) async {
+    if (!hasNewVersion){
+      showDialog(context: context, builder: (context) => AlertDialog(
+        titlePadding: const EdgeInsets.all(0),
+        title: const Text("当前版本已是最新"),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.of(context).pop();
+          }, child: const Text("关闭")),
+        ],
+      ));
+    } else {
+      showDialog(context: context,
+          // NOTICE 必须要用StatefulBuilder来实现内部内部state更新, 否则会无法正常显示进度条
+          // NOTICE 注意下面的setState参数, 原来的setState给传入给它了
+          builder: (context) => StatefulBuilder(builder: (context, setState){
+            return AlertDialog(
+                title: const Text("发现新版本!", textAlign: TextAlign.center, style: TextStyle(fontSize: 22,
+                    fontWeight: FontWeight.bold
+                ),),
+                titlePadding: const EdgeInsets.all(0),
+                content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("当前版本: $_curAppVersion, 最新版本: $newVersion"),
+                      if (_isDownloading)
+                        Column(
+                          children: [
+                            Container(
+                                margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                                child: LinearProgressIndicator(
+                                  value: _upgradeDownloadPercent / 100,
+                                )
+                            ),
+                            Text("${_upgradeDownloadSpeed.toStringAsFixed(0)} kb/s  剩余${_upgradeDownloadLeftTime.toStringAsFixed(0)} s")
+                          ],
+                        )
+                    ]
+                ),
+                actions: [
+                  TextButton(onPressed: () async {
+                    setState((){
+                      _isDownloading = false; // 为的是防止再次点击检查更新
+                    });
+                    if (_upgradeDownloadId != null){
+                      await RUpgrade.cancel(_upgradeDownloadId!);
+                    }
+                    _upgradeDownloadId = null;
+                    Navigator.of(context).pop();
+                  }, child: const Text("取消")),
+                  TextButton(onPressed: () async {
+                    // 更新
+                    int? id = await RUpgrade.upgrade(upgradeUrl,
+                        fileName: 'ski_app.apk', isAutoRequestInstall: true,
+                        notificationStyle: NotificationStyle.speechAndPlanTime);
+                    setState(() {
+                      _isDownloading = true;
+                      _upgradeDownloadId = id;
+                    });
+                    RUpgrade.stream.listen((DownloadInfo info){
+                      setState((){
+                        //FIXME 这里出问题了, setState() Called After Dispose()
+
+                        _upgradeDownloadPercent = info.percent ?? 0.0; // 0 - 100
+                        _upgradeDownloadSpeed = info.speed ?? 0.0;
+                        _upgradeDownloadLeftTime = info.planTime ?? 0.0;
+                      });
+                    });
+                  }, child: const Text("下载"))
+                ],
+              );
+          })
+      );
+    }
+  }
+}
+
+bool isUpdateVersion(String newVersion, String old) {
+  // 为什么不用split -> join -> int来比较， 因为.号码中间可能一个两位，一个一位
+  int newVersionInt, oldVersion;
+  var newList = newVersion.split('.');
+  var oldList = old.split('.');
+  for (int i = 0; i < newList.length; i++) {
+    newVersionInt = int.parse(newList[i]);
+    oldVersion = int.parse(oldList[i]);
+    if (newVersionInt > oldVersion) {
+      return true;
+    }
+  }
+  return false;
 }
