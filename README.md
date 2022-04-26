@@ -17,6 +17,8 @@
 - [x] 将商店页面由网页展示改为类似京东界面,只不过点击控件跳转到京东app
 - [x] tweet details 页面需要加上显示他人的评论
 - [x] 实现登陆页面UI
+- [x] 历史数据(滑雪记录)页面重新开发
+- [x] 修改 splash screen 图片
 
 - [ ] 登陆界面交互
 - [ ] 历史数据界面加上加上添加/显示收藏
@@ -29,13 +31,11 @@
 - [ ] community page 使用 websocket 接口
 - [ ] data analysis 的 环形记录指示器 自定义 进度条首尾添加Icon组件(现在发现`syncfushion`有自定义组件的的这)
 - [ ] data analysis 的 circular indicator 中间 添加水波浪效果
-- [ ] 历史数据(滑雪记录)页面重新开发
-- [ ] 修改 splash screen 图片
 - [ ] 将有需要的地方使用cached_network_image, 比如setting page
 - [ ] 美化字体
 - [ ] 将商店页面由webview改为flutter内置
 
-## Knowing issues
+## Known issues
 
 - [x] Setting Page 里没有对get不存在的用户数据 讨论
   

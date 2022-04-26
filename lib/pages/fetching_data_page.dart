@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:ski_app/common.dart' show MyColors;
-import 'package:ski_app/model/history_general_model.dart' show HistoryGeneralCommonItem;
+import 'package:ski_app/model/history_model.dart' show HistoryItem;
 import 'package:ski_app/pages/data_analysis_page.dart';
 import 'package:ski_app/widget/common_widget.dart';
 import 'package:timelines/timelines.dart';
@@ -20,7 +20,7 @@ class FetchingDataPage extends StatefulWidget {
 
 class _FetchingDataPageState extends State<FetchingDataPage> {
   late Timer _timer;
-  List<HistoryGeneralCommonItem> _datas = [];
+  List<HistoryItem> _datas = [];
   List<String> _ids = [];
   bool _isLoading = true;
   List _reversedData = [];
@@ -28,7 +28,7 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
   Future<void> _fetchData() async {
     FetchLatestDataDao.fetch(userId: widget.userId).then((results){
       String id = results[0];
-      HistoryGeneralCommonItem value = results[1];
+      HistoryItem value = results[1];
 
       setState(() {
         // TODO 只收集近一个小时的值, 不过这还要获取日期数据等等,还是之后再做吧
