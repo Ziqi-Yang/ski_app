@@ -45,7 +45,8 @@
 - [ ] 断网后没获取到数据应该要重新尝试获取数据
 - setting page 升级模块问题, 但不影响使用
     - [ ] `setState() Called After Dispose()`
-    - [ ] 有些时候没下载也会print出connect error的错误, 或许是`r_upgrade`插件的问题
+- [ ] setting page 有些时候会print出os connect error的错误, 但实际使用没影响
+- [ ] 第一次 登陆帐号界面会print overflow, 但实际使用没影响
 
 
 ## 需求
