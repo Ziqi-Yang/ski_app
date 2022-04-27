@@ -143,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen(fromLogin: true,)));
                   },
                   child: const Text(
-                    "还没有账户? 注账户",
+                    "还没有账户? 注册账户",
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,

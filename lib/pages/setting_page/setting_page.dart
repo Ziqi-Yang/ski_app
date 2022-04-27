@@ -296,7 +296,7 @@ class _SettingPageState extends State<SettingPage>
   _upgradeDialog(bool hasNewVersion, String newVersion, String upgradeUrl) async {
     if (!hasNewVersion){
       showDialog(context: context, builder: (context) => AlertDialog(
-        titlePadding: const EdgeInsets.all(0),
+        // titlePadding: const EdgeInsets.all(0),
         title: const Text("当前版本已是最新"),
         actions: [
           TextButton(onPressed: (){
@@ -313,7 +313,7 @@ class _SettingPageState extends State<SettingPage>
                 title: const Text("发现新版本!", textAlign: TextAlign.center, style: TextStyle(fontSize: 22,
                     fontWeight: FontWeight.bold
                 ),),
-                titlePadding: const EdgeInsets.all(0),
+                // titlePadding: const EdgeInsets.all(0),
                 content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [

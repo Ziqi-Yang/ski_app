@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ski_app/common.dart' show MyColors;
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:ski_app/dao/single_data_dao.dart';
 import 'package:ski_app/model/single_data_model.dart';
@@ -381,17 +380,27 @@ class _DataAnalysisPageState extends State<DataAnalysisPage> {
     if (_singleDataModle != null){
       _videoPlayerController = VideoPlayerController.network(_singleDataModle!.actionCompareVideoUrl);
       _videoPlayerControllerInit();
-      _chewieController = ChewieController(videoPlayerController: _videoPlayerController!);
+      _chewieController = ChewieController(videoPlayerController: _videoPlayerController!,
+        autoInitialize: true,
+        aspectRatio: (MediaQuery.of(context).size.width - 40) / 250, // 视频宽高比设置为Container的宽高比
+        placeholder: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: Image.asset("assets/images/background_0.jpg", fit: BoxFit.cover,),
+        ),
+        optionsTranslation: OptionsTranslation(playbackSpeedButtonText: "速度", cancelButtonText: "取消", )
+      );
 
       return Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20)
-        ),
         height: 250,
-          child: Chewie(controller: _chewieController!)
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Chewie(controller: _chewieController!,),
+          )
       );
     }
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
     );

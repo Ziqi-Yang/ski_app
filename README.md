@@ -19,12 +19,12 @@
 - [x] 实现登陆页面UI
 - [x] 历史数据(滑雪记录)页面重新开发
 - [x] 修改 splash screen 图片
+- [x] 添加检测更新功能
+- [x] 历史数据界面加上加上添加/显示收藏
 
-- [ ] 登陆界面交互
-- [ ] 将 `http` 库换成 `dio` 库
-- [ ] 历史数据界面加上加上添加/显示收藏
-- [ ] 添加检测更新功能
+- [ ] 登陆界面交互, 以及忘记密码界面
 - [ ] 更换加载特效(如使用滑雪的人的gif而不是使用) https://github.com/LaoMengFlutter/flutter-do
+- [ ] data details 界面视频播放器修改
 - [ ] shopping page 把Swiper放在滑动列表里(此处由于商品少，可以考虑shrinkwrap?)
 - [ ] shopping page 点击商品跳转(在跳转前先显示正在加载)时候判断用户是否安装淘宝(判断打开链接失败)，未安装则提示安装
 - [ ] shopping page 使用微光加载特效(`shimmer`)
@@ -34,7 +34,6 @@
 - [ ] data analysis 的 circular indicator 中间 添加水波浪效果
 - [ ] 将有需要的地方使用cached_network_image, 比如setting page
 - [ ] 美化字体
-- [ ] 将商店页面由webview改为flutter内置
 
 ## Known issues
 
@@ -57,9 +56,7 @@
    requirement:
 > It must be a png file and should be sized for 4x pixel density.
 
-example:
-![](./assets/splash_test.png)
-
+[example](./assets/splash_test.png) (占空间，点进去看)  
 [演示](https://pub.dev/packages/flutter_native_splash)
 
 2. [x] App Icon 
