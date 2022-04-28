@@ -54,6 +54,14 @@ dependencies:
   r_upgrade: ^0.3.8+1 # 用来升级软件, setting page有用
   permission_handler: ^9.2.0 # 动态权限申请
   package_info_plus: ^1.4.2 # 用于获取App的信息, 在 setting page 的 更新模块中有用到
+#  photo_view: ^0.13.0 # 用于图片放大, 用在community的enlarge_widget里
+  photo_view:
+    # dart pub 上的版本落后, 对 flutter 2.10.x 有
+    # Looking up a deactivated widget's ancestor is unsafe 错误
+    # 见 https://github.com/bluefireteam/photo_view/issues/489
+    git:
+      url: https://github.com/bluefireteam/photo_view
+      ref: 23063d535909027b8e198c2cffa83bf8f0480c96
 
 
 dev_dependencies:

@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:ski_app/model/community/tweet.dart';
+import 'package:ski_app/pages/communiy_page/enlarge_widget.dart';
 import 'package:ski_app/pages/communiy_page/tweet_details.dart';
 import 'package:ski_app/widget/common_widget.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class TweetWidget extends StatelessWidget {
+class TweetWidget extends StatefulWidget {
   final Tweet tweet;
   final bool showTopBorder;
 
   const TweetWidget({Key? key, required this.tweet, this.showTopBorder = true}) : super(key: key);
 
+  @override
+  State<TweetWidget> createState() => _TweetWidgetState();
+}
+
+class _TweetWidgetState extends State<TweetWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Tweet tweet = widget.tweet;
+    bool showTopBorder = widget.showTopBorder;
+
     return CommonWidget.ontapSlideRoute(
       context: context,
       pageChild: TweetDetails(tweet: tweet),
@@ -73,19 +82,36 @@ class TweetWidget extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(Radius.circular(16)),
-                            child: CachedNetworkImage(
-                              imageUrl: tweet.medias.pictures != null
-                                  ? tweet.medias.pictures![0]
-                                  : "https://wx2.sinaimg.cn/orj360/00337rRAly1gthleo3pyrj60j60j6aan02.jpg",
-                              progressIndicatorBuilder: // TODO 更改加载动画
-                                  (context, url, downloadProgress) => Center(
-                                  child: CircularProgressIndicator(
-                                      value: downloadProgress.progress)),
-                              fit: BoxFit.cover,
+                          child: GestureDetector(
+                            // FIXME 改为 Inkwell
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                return EnlargeWidget(
+                                  tag: tweet.userId,
+                                    imageProvider: NetworkImage(
+                                  tweet.medias.pictures != null
+                                      ? tweet.medias.pictures![0]
+                                      : "https://wx2.sinaimg.cn/orj360/00337rRAly1gthleo3pyrj60j60j6aan02.jpg",
+                                ));
+                              }));
+                            },
+                            child: Hero(
+                              tag: tweet.userId,
+                              child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: tweet.medias.pictures != null
+                                        ? tweet.medias.pictures![0]
+                                        : "https://wx2.sinaimg.cn/orj360/00337rRAly1gthleo3pyrj60j60j6aan02.jpg",
+                                    progressIndicatorBuilder: // TODO 更改加载动画
+                                        (context, url, downloadProgress) => Center(
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress)),
+                                    fit: BoxFit.cover,
+                                  )
+                              ),
                             )
-                          ),
+                          )
                         ),
                         Padding(padding: const EdgeInsets.only(top: 8.0),
                           child: Row(
@@ -144,12 +170,14 @@ class TweetWidget extends StatelessWidget {
   }
 
   get _favIconPath {
+    Tweet tweet = widget.tweet;
     return tweet.hasFav
         ? "assets/images/community_page/heart_colored.svg"
         : "assets/images/community_page/heart-outline.svg";
   }
 
   get _rtIconPath {
+    Tweet tweet = widget.tweet;
     return tweet.hasRt
         ? "assets/images/community_page/retweet_colored.svg"
         : "assets/images/community_page/retweet.svg";

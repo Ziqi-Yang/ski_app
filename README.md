@@ -2,9 +2,9 @@
 
 ## Current Work
 
-## Test Notice
+## Notice
 
-1. 在`获取数据`(目前是`首页`)页面, 测试使用的`api`没有生成随机数据,需要手动修改服务端`latest_data`才能显示所有效果
+1. 本仓库中的接口文档已转移, [位置](https://gitee.com/zarkliazrael/ski_app_docs/tree/master), gitee私有仓库
 
 ## TODO
 
@@ -46,6 +46,7 @@
     - [ ] `setState() Called After Dispose()`
 - [ ] setting page 有些时候会print出os connect error的错误, 但实际使用没影响
 - [ ] 第一次 登陆帐号界面会print overflow, 但实际使用没影响
+- [ ] `enlarge` widget 退出时候出现`Looking up a deactivated widget's ancestor is unsafe.`错误
 
 
 ## 需求

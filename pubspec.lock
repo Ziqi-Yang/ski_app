@@ -294,6 +294,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.11"
+  material_color_utilities:
+    dependency: transitive
+    description:
+      name: material_color_utilities
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   meta:
     dependency: transitive
     description:
@@ -497,6 +504,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
+  photo_view:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "23063d535909027b8e198c2cffa83bf8f0480c96"
+      resolved-ref: "23063d535909027b8e198c2cffa83bf8f0480c96"
+      url: "https://github.com/bluefireteam/photo_view"
+    source: git
+    version: "0.13.0"
   platform:
     dependency: transitive
     description:
@@ -662,7 +678,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.8"
   timelines:
     dependency: "direct main"
     description:

@@ -19,6 +19,7 @@ class _CommunityPageState extends State<CommunityPage>
 
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Tweet> _tweets = [];
 
   @override
@@ -46,12 +47,13 @@ class _CommunityPageState extends State<CommunityPage>
   Widget build(BuildContext context) {
     super.build(context); // 缓存页面必须
 
-    final double _screenHeight = MediaQuery.of(context).size.height;
-    final double _statusBarHeight = MediaQuery.of(context).padding.top;
-    const double _sliverAppBarHeight = 56.0;
-    const double _bottomNavigationBarHeight = 58.0;
+    // final double _screenHeight = MediaQuery.of(context).size.height;
+    // final double _statusBarHeight = MediaQuery.of(context).padding.top;
+    // const double _sliverAppBarHeight = 56.0;
+    // const double _bottomNavigationBarHeight = 58.0;
 
     return Scaffold(
+      key: _scaffoldKey,
       body:
           NestedScrollView(
               floatHeaderSlivers: true,
