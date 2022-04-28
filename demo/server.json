@@ -60,6 +60,7 @@
     {
       "username": "列奥那多是勇者",
       "userId": "LeonardoZarkli",
+      "id": "0",
       "verified": true,
       "avatar": "https://img3.sycdn.imooc.com/61c58ca10001966a09600960-140-140.jpg",
       "message": "This <span style='color: red'>video</span> will teach you all the relevant concepts you need to build a solid app with the clean architectural guidelines. You'll learn to use dependency injection with Dagger-Hilt, SOLID principles, CSV parsing with OpenCSV, working with remote APIs using Retrofit, local caching with Room, custom drawing on a canvas using Compose and much more. <br> What Should We <i>Do</i>?",
@@ -76,11 +77,12 @@
     {
       "username": "邪恶大魔王",
       "userId": "evil_man",
+      "id": "1",
       "verified": true,
       "avatar": "https://i1.hdslb.com/bfs/face/06de76e5aed72e3d42445fea5c711c77befcc90f.jpg@96w_96h_1c_1s.webp",
       "message": "This video will teach you all the relevant concepts you need to build a solid app with the clean architectural guidelines. You'll learn to use dependency injection with Dagger-Hilt, SOLID principles, CSV parsing with OpenCSV, working with remote APIs using Retrofit, local caching with Room, custom drawing on a canvas using Compose and much more. <br> What Should We <strong>Do</strong>?",
       "medias": {
-        "pictures": ["https://bkimg.cdn.bcebos.com/pic/242dd42a2834349bcc90200bc3ea15ce37d3beae?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U5Mg==,g_7,xp_5,yp_5/format,f_auto"],
+        "pictures": ["http://www.dmoe.cc/random.php"],
         "videos": null
       },
       "retweet": 5,
@@ -92,6 +94,7 @@
     {
       "username": "仰慕勇者的人",
       "userId": "dog_is_dog",
+      "id": "2",
       "verified": true,
       "avatar": "https://i2.hdslb.com/bfs/app/8920e6741fc2808cce5b81bc27abdbda291655d3.png@240w_240h_1c_1s.webp",
       "message": "This video will teach you all the relevant concepts you need to build a solid app with the clean architectural guidelines. You'll learn to use dependency injection with Dagger-Hilt, SOLID principles, CSV parsing with OpenCSV, working with remote APIs using Retrofit, local caching with Room, custom drawing on a canvas using Compose and much more. <br> What Should We <i>Do</i>?",
@@ -159,7 +162,7 @@
     ]
   },
   "latest_version": {
-    "version": "0.0.2",
-    "url": "https://gitee.com/zarkliazrael/ski_app/attach_files/1043331/download/app-release.apk"
+    "version": "0.1.0",
+    "url": "http://note.zps1.cn:8000/app-release.apk"
   }
 }

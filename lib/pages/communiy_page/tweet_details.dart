@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ski_app/model/community/media.dart';
 import 'package:ski_app/model/community/tweet.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ski_app/dao/community/tweets_dao.dart';
+import 'package:ski_app/pages/communiy_page/media_area.dart';
 import 'package:ski_app/pages/communiy_page/tweet_widget.dart';
 
 class TweetDetails extends StatefulWidget {
@@ -135,20 +137,7 @@ class _TweetDetailsState extends State<TweetDetails> {
                   data: widget.tweet.message,
                   style: {"body": Style(fontSize: const FontSize(20))},
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    child: Image.network(
-                      // FIXME 只实现了加载第一个图片,未能加载则加载百度(哭)
-                      widget.tweet.medias.pictures != null
-                          ? widget.tweet.medias.pictures![0]
-                          : "https://wx2.sinaimg.cn/orj360/00337rRAly1gthleo3pyrj60j60j6aan02.jpg",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                MediaArea(heroTag: "details_page_" + widget.tweet.id, medias: widget.tweet.medias), // messageId
                 const Divider(),
                 RichText(
                     text: TextSpan(
@@ -166,7 +155,7 @@ class _TweetDetailsState extends State<TweetDetails> {
                     ])),
                 const Divider(),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

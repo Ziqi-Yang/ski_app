@@ -23,17 +23,21 @@
 - [x] 历史数据界面加上加上添加/显示收藏
 
 - [ ] 登陆界面交互, 以及忘记密码界面
-- [ ] 更换加载特效(如使用滑雪的人的gif而不是使用) https://github.com/LaoMengFlutter/flutter-do
+- [ ] shopping page 和 community 使用微光加载特效(`shimmer`)
 - [ ] data details 界面视频播放器修改
 - [ ] shopping page 把Swiper放在滑动列表里(此处由于商品少，可以考虑shrinkwrap?)
 - [ ] shopping page 点击商品跳转(在跳转前先显示正在加载)时候判断用户是否安装淘宝(判断打开链接失败)，未安装则提示安装
-- [ ] shopping page 使用微光加载特效(`shimmer`)
 - [ ] community page 里面的 tweet widget 加上点击图片放大的插件
 - [ ] community page 使用 websocket 接口
 - [ ] data analysis 的 环形记录指示器 自定义 进度条首尾添加Icon组件(现在发现`syncfushion`有自定义组件的的这)
 - [ ] data analysis 的 circular indicator 中间 添加水波浪效果
 - [ ] 将有需要的地方使用cached_network_image, 比如setting page
 - [ ] 美化字体
+
+## wished feature
+
+- [ ] `twitter` 查看大图的背景颜色是根据图片来生成的 (或者是服务端先处理好的)
+
 
 ## Known issues
 
@@ -46,7 +50,6 @@
     - [ ] `setState() Called After Dispose()`
 - [ ] setting page 有些时候会print出os connect error的错误, 但实际使用没影响
 - [ ] 第一次 登陆帐号界面会print overflow, 但实际使用没影响
-- [ ] `enlarge` widget 退出时候出现`Looking up a deactivated widget's ancestor is unsafe.`错误
 
 
 ## 需求

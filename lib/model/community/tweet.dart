@@ -4,6 +4,7 @@ class Tweet{
   final String username;
   final String userId;
   final String avatar;
+  final String id;
   final String message;
   final Media medias;
   final int retweet;
@@ -13,7 +14,8 @@ class Tweet{
   final bool hasRt;
   final bool hasFav;
 
-  Tweet({required this.username, required this.userId, required this.avatar, required this.message, required this.medias,
+  Tweet({required this.username, required this.userId, required this.avatar, required this.id,
+  required this.message, required this.medias,
       required this.retweet, required this.fav, required this.replyNum, required this.verified,
     required this.hasRt, required this.hasFav
   });
@@ -23,6 +25,7 @@ class Tweet{
       username: json["username"],
       userId: json["userId"],
       avatar: json["avatar"],
+      id: json["id"],
       message: json["message"],
       medias: Media.fromJson(json["medias"]), // FIXME
       retweet: json["retweet"],
