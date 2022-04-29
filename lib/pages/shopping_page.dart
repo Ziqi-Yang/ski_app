@@ -1,12 +1,15 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ski_app/common.dart' show MyColors;
 import 'package:card_swiper/card_swiper.dart';
+import 'package:ski_app/model/community/media.dart';
 import 'package:ski_app/model/shop/shop_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ski_app/model/shop/shop_model.dart';
 import 'package:ski_app/dao/shop_dao.dart';
+import 'package:ski_app/widget/animated_shimmer.dart';
 
 class ShoppingPage extends StatefulWidget {
   const ShoppingPage({Key? key}) : super(key: key);
@@ -20,6 +23,7 @@ class _ShoppingPageState extends State<ShoppingPage>
   ShopModel? _shopModel;
 
   final _swiperHeight = 160.0; // 不包括margin
+  var rnd = Random();
 
   @override
   bool get wantKeepAlive => true;
@@ -55,19 +59,20 @@ class _ShoppingPageState extends State<ShoppingPage>
     return Scaffold(
         // 对于MasonryGridView不能放在customscrollview中，放在NestedScrollView中效果似乎会出问题
         appBar: _appBar(context),
-        body: Column(
-          children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: _swiper(context)),
-            Container(
-              height: _itemListHeight,
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              color: MyColors.background,
-              child: _itemLists(context),
-            )
-          ],
-        ));
+        body: SingleChildScrollView( // 防止shimmer溢出, 对原组件无影响
+          child: Column(
+            children: [
+              _shopShimmer
+              // _swiper(context),
+              // Container(
+              //   height: _itemListHeight,
+              //   padding: const EdgeInsets.symmetric(horizontal: 14),
+              //   color: MyColors.background,
+              //   child: _itemLists(context),
+              // )
+            ],
+          ))
+        );
   }
 
   _appBar(BuildContext context) {
@@ -96,8 +101,8 @@ class _ShoppingPageState extends State<ShoppingPage>
     }
 
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
         height: _swiperHeight,
+        margin: const EdgeInsets.symmetric( vertical: 8),
         child: Swiper(
           itemCount: _swiperCovers.length,
           itemBuilder: (BuildContext context, int index) {
@@ -124,16 +129,19 @@ class _ShoppingPageState extends State<ShoppingPage>
   }
 
   _swiperImage(BuildContext context, imageUrl) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        fit: BoxFit.fill,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 14),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          fit: BoxFit.fill,
 
-        // FIXME 修改指示器和错误组件
-        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-            child: CircularProgressIndicator(value: downloadProgress.progress)),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+          // FIXME 修改指示器和错误组件
+          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+              child: CircularProgressIndicator(value: downloadProgress.progress)),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
       ),
     );
   }
@@ -159,68 +167,111 @@ class _ShoppingPageState extends State<ShoppingPage>
 
   _itemCard(BuildContext context, ShopItem item) {
     return GestureDetector(
-      onTap: (){
-        launch(item.externalLink);
-      },
-      child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
-          padding: const EdgeInsets.only(bottom: 4),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14), // 外部包裹处圆角
-            color: Colors.white54,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(14), // 图片上部分圆角
-            child: Column(
-              children: [
-                SizedBox(
-                    width: double.infinity,
-                    child: CachedNetworkImage(
-                      imageUrl: item.cover,
-                      progressIndicatorBuilder: // TODO 更改加载动画
-                          (context, url, downloadProgress) => Center(
-                          child: CircularProgressIndicator(
-                              value: downloadProgress.progress)),
-                      fit: BoxFit.cover,
-                    )),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 7),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.description,
-                        style: const TextStyle(
-                            fontSize: 17),
-                        softWrap: true,
-                      ),
-                      Text(
-                        item.details ?? "",
-                        style: const TextStyle(color: Colors.grey, fontSize: 15),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "￥",
-                            style: TextStyle(color: Colors.red, fontSize: 14),
-                          ),
-                          Text(
-                            item.price.toString(),
-                            style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
+        onTap: () {
+          launch(item.externalLink);
+        },
+        child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+            padding: const EdgeInsets.only(bottom: 4),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14), // 外部包裹处圆角
+              color: Colors.white54,
             ),
-          )
-      )
-    );
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(14), // 图片上部分圆角
+              child: Column(
+                children: [
+                  SizedBox(
+                      width: double.infinity,
+                      child: CachedNetworkImage(
+                        imageUrl: item.cover,
+                        progressIndicatorBuilder: // TODO 更改加载动画
+                            (context, url, downloadProgress) => Center(
+                                child: CircularProgressIndicator(
+                                    value: downloadProgress.progress)),
+                        fit: BoxFit.cover,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 7),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.description,
+                          style: const TextStyle(fontSize: 17),
+                          softWrap: true,
+                        ),
+                        Text(
+                          item.details ?? "",
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 15),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              "￥",
+                              style: TextStyle(color: Colors.red, fontSize: 14),
+                            ),
+                            Text(
+                              item.price.toString(),
+                              style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )));
+  }
+
+  Widget get _shopShimmer {
+    double _innerWidth = MediaQuery.of(context).size.width - 2 * 14.0;
+
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        child: Column(
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: AnimatedShimmer(
+                  width: _innerWidth,
+                  height: _swiperHeight,
+                  borderRadius: BorderRadius.circular(20),
+                )),
+            Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  Expanded(child: Column(children: _shimmerItemCards(3),)),
+                  Expanded(child: Column(children: _shimmerItemCards(3),))
+                ],
+              )]
+            )
+          ],
+        ));
+  }
+
+  _shimmerItemCards(int count){
+    double _innerWidth = MediaQuery.of(context).size.width - 2 * 14.0; // 不优雅，但还是算了
+    List<Widget> _singleItemList = [
+      Padding(padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 3),
+      child: AnimatedShimmer(
+          borderRadius: BorderRadius.circular(14),
+          width: (_innerWidth - 2*3*2) / 2,
+          height: (200 + rnd.nextInt(100)).toDouble()
+      ),
+    )];
+    List<Widget> res = [];
+    for (int i = 0; i < count; i++){
+      res += _singleItemList;
+    }
+    return res;
   }
 }
