@@ -4,8 +4,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ski_app/common.dart' show MyColors;
 import 'package:card_swiper/card_swiper.dart';
-import 'package:ski_app/model/community/media.dart';
 import 'package:ski_app/model/shop/shop_item.dart';
+import 'package:ski_app/widget/common_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ski_app/model/shop/shop_model.dart';
 import 'package:ski_app/dao/shop_dao.dart';
@@ -21,12 +21,21 @@ class ShoppingPage extends StatefulWidget {
 class _ShoppingPageState extends State<ShoppingPage>
     with AutomaticKeepAliveClientMixin {
   ShopModel? _shopModel;
+  bool _loadModelDone = false;
 
   final _swiperHeight = 160.0; // 不包括margin
   var rnd = Random();
 
   @override
   bool get wantKeepAlive => true;
+
+  void _launchApp(String url) async {
+    if ( await canLaunch(url)){
+      await launch(url);
+    } else {
+      errorDialog(context, "请先安装淘宝App"); // FIXME 可以在dialog里加个打开商店的button
+    }
+  }
 
   @override
   void initState() {
@@ -35,6 +44,7 @@ class _ShoppingPageState extends State<ShoppingPage>
     ShopDao.fetch().then((value) {
       setState(() {
         _shopModel = value;
+        _loadModelDone = true;
       });
     }).catchError((e) {
       print(e);
@@ -45,55 +55,41 @@ class _ShoppingPageState extends State<ShoppingPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    const _appbarHeight = 56.0;
-    const _bottomNavHeight = 58.0;
-    final _statusBarHeight = MediaQuery.of(context).padding.top;
-    final _screenHeight = MediaQuery.of(context).size.height;
-    final _itemListHeight = _screenHeight -
-        _statusBarHeight -
-        _appbarHeight -
-        _swiperHeight -
-        _bottomNavHeight -
-        2 * 8.0; // 8.0 是 swiper的margin
-
     return Scaffold(
         // 对于MasonryGridView不能放在customscrollview中，放在NestedScrollView中效果似乎会出问题
-        appBar: _appBar(context),
-        body: SingleChildScrollView( // 防止shimmer溢出, 对原组件无影响
-          child: Column(
-            children: [
-              _shopShimmer
-              // _swiper(context),
-              // Container(
-              //   height: _itemListHeight,
-              //   padding: const EdgeInsets.symmetric(horizontal: 14),
-              //   color: MyColors.background,
-              //   child: _itemLists(context),
-              // )
+        body: CustomScrollView( // 防止shimmer溢出, 对原组件无影响
+            slivers: [
+              const SliverAppBar(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                title: Text("滑雪商店"),
+                centerTitle: true,
+                floating: true,
+              ),
+              if (!_loadModelDone)
+                SliverToBoxAdapter(
+                  child: _shopShimmer,
+                ),
+              if (_loadModelDone)
+                SliverToBoxAdapter(
+                  child: _swiper(context),
+                ),
+              if (_loadModelDone)
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  sliver: _itemLists(context)
+                )
             ],
-          ))
+          )
         );
   }
 
-  _appBar(BuildContext context) {
-    return AppBar(
-      title: const Text("雪具商店"),
-      centerTitle: true,
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      elevation: .7,
-    );
-  }
 
   // FIXME 把swiper放在list里面
   _swiper(BuildContext context) {
-    List<String> _swiperCovers = [
-      "https://gw.alicdn.com/imgextra/i3/2212921989092/O1CN01BVEUtO2H2Bl6JnCBn_!!2212921989092.jpg_790x10000Q75.jpg_.webp",
-      "https://gw.alicdn.com/imgextra/i2/2212921989092/O1CN01YFDOJh2H2Bl4g1ccJ_!!2212921989092.jpg_790x10000Q75.jpg_.webp",
-      "https://gw.alicdn.com/imgextra/i2/2212921989092/O1CN01EcFW5w2H2BkvTxgY3_!!2212921989092.jpg_790x10000Q75.jpg_.webp"
-    ]; // FIXME 默认图片需要改下
+    List<String> _swiperCovers = [];
 
-    List<String?> _links = [null, null, null]; // NOTICE 长度要和 _swiperCovers 长度一致
+    List<String?> _links = []; // NOTICE 长度要和 _swiperCovers 长度一致
 
     if (_shopModel != null) {
       _swiperCovers = List<String>.from(_shopModel!.swiper.map((e) => e.cover));
@@ -109,7 +105,7 @@ class _ShoppingPageState extends State<ShoppingPage>
             return _links[index] != null
                 ? GestureDetector(
                     onTap: () {
-                      launch(_links[index]!);
+                      _launchApp(_links[index]!);
                     },
                     child: _swiperImage(context, _swiperCovers[index]))
                 : _swiperImage(context, _swiperCovers[index]);
@@ -136,10 +132,7 @@ class _ShoppingPageState extends State<ShoppingPage>
         child: CachedNetworkImage(
           imageUrl: imageUrl,
           fit: BoxFit.fill,
-
-          // FIXME 修改指示器和错误组件
-          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-              child: CircularProgressIndicator(value: downloadProgress.progress)),
+          placeholder: (BuildContext context, String url) => const AnimatedShimmer(),
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
       ),
@@ -154,11 +147,11 @@ class _ShoppingPageState extends State<ShoppingPage>
       _items = _shopModel!.itemList;
     }
 
-    return MasonryGridView.count(
+    return SliverMasonryGrid.count(
       crossAxisCount: 2,
       mainAxisSpacing: 4,
       crossAxisSpacing: 4,
-      itemCount: _items.length,
+      childCount: _items.length,
       itemBuilder: (context, index) {
         return _itemCard(context, _items[index]);
       },
@@ -168,14 +161,15 @@ class _ShoppingPageState extends State<ShoppingPage>
   _itemCard(BuildContext context, ShopItem item) {
     return GestureDetector(
         onTap: () {
-          launch(item.externalLink);
+          _launchApp(item.externalLink);
         },
         child: Container(
             margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
             padding: const EdgeInsets.only(bottom: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14), // 外部包裹处圆角
-              color: Colors.white54,
+              boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: .5)],
+              color: Colors.white,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(14), // 图片上部分圆角
@@ -185,10 +179,9 @@ class _ShoppingPageState extends State<ShoppingPage>
                       width: double.infinity,
                       child: CachedNetworkImage(
                         imageUrl: item.cover,
-                        progressIndicatorBuilder: // TODO 更改加载动画
-                            (context, url, downloadProgress) => Center(
-                                child: CircularProgressIndicator(
-                                    value: downloadProgress.progress)),
+                        placeholder: (BuildContext context, String url) => const AnimatedShimmer(
+                          height: 200,
+                        ),
                         fit: BoxFit.cover,
                       )),
                   Padding(

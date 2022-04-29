@@ -21,13 +21,13 @@ onTapSlide({required BuildContext context,
   ));
 }
 
-funcNotSupportDialog(BuildContext context){
+errorDialog(BuildContext context, String details){
   showDialog(context: context,
       builder: (context) => AlertDialog(
         title: const Text("错误", style: TextStyle(color: Colors.redAccent,
             fontSize: 22, fontWeight: FontWeight.bold
         ),),
-        content: const Text("该功能暂未实现"),
+        content: Text(details),
         actions: [
           TextButton(onPressed: (){
             Navigator.of(context).pop();
@@ -35,6 +35,11 @@ funcNotSupportDialog(BuildContext context){
         ],
       )
   );
+
+}
+
+funcNotSupportDialog(BuildContext context){
+  errorDialog(context, "该功能暂未实现");
 }
 
 

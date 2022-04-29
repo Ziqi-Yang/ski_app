@@ -45,7 +45,7 @@
   
 - [ ] community_page 使用 `scrollable_positioned_list` 插件,
   导致 `customScrollView`或者`NestedScrollView` 顶部的 SliverAppBar无法float
-- [ ] 断网后没获取到数据应该要重新尝试获取数据
+- [ ] 断网后没获取到数据应该要重新尝试获取数据(可以显示网络)
 - setting page 升级模块问题, 但不影响使用
     - [ ] `setState() Called After Dispose()`
 - [ ] setting page 有些时候会print出os connect error的错误, 但实际使用没影响

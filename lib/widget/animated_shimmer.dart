@@ -15,10 +15,10 @@ import 'package:flutter/material.dart';
 /// - [delayInMilliSeconds] : accepts a [Duration] that would be the delay in starting the animation. Default value is [Duration(milliseconds: 0)]
 class AnimatedShimmer extends StatefulWidget {
   /// Accepts a [double] to set width of the shimmer effect
-  final double width;
+  final double? width;
 
   /// Accepts a [double] to set height of the shimmer effect
-  final double height;
+  final double? height;
 
   /// Accepts a [Color] and sets the start color of the shimmer effect from which animation will start
   final Color? startColor;
@@ -40,8 +40,8 @@ class AnimatedShimmer extends StatefulWidget {
         this.startColor = const Color(0xffE6E8EB),
         this.endColor = const Color(0x77E6E8EB),
         this.delayInMilliSeconds = const Duration(milliseconds: 0),
-        required this.width,
-        required this.height})
+        this.width,
+        this.height})
       : assert((endColor != null && startColor != null)),
         super(key: key);
 
