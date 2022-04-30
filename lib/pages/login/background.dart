@@ -38,7 +38,7 @@ class Background extends StatelessWidget {
             top: 50,
             right: 30,
             child: Image.asset(
-                "assets/images/login_page/main.png", // FIXME 这里需要更改
+                "assets/images/login_page/", // FIXME 这里需要更改
                 width: size.width * 0.35
             ),
           ),

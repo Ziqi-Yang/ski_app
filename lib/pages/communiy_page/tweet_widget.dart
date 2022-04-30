@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ski_app/model/community/tweet.dart';
 import 'package:ski_app/pages/communiy_page/media_area.dart';
 import 'package:ski_app/pages/communiy_page/tweet_details.dart';
+import 'package:ski_app/widget/animated_shimmer.dart';
 import 'package:ski_app/widget/common_widget.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,9 +42,14 @@ class _TweetWidgetState extends State<TweetWidget> {
                 padding: const EdgeInsets.fromLTRB(14, 14, 8, 14),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(200),
-                  child: Image.network(
-                    tweet.avatar,
+                  child: CachedNetworkImage(
+                    imageUrl: tweet.avatar,
                     width: 60,
+                    placeholder: (BuildContext context, String url){
+                      return AnimatedShimmer.round(
+                        size: 60,
+                      );
+                    },
                   ),
                 ),
               ),

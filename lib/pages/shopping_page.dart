@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ski_app/common.dart' show MyColors;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:ski_app/model/shop/shop_item.dart';
 import 'package:ski_app/widget/common_widget.dart';

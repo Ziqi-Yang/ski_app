@@ -44,7 +44,7 @@
 - [x] Setting Page 里没有对get不存在的用户数据 讨论
   
 - [ ] community_page 使用 `scrollable_positioned_list` 插件,
-  导致 `customScrollView`或者`NestedScrollView` 顶部的 SliverAppBar无法float
+  导致 `customScrollView`或者`NestedScrollView` 顶部的 SliverAppBar无法随滑动消失
 - [ ] 断网后没获取到数据应该要重新尝试获取数据(可以显示网络)
 - setting page 升级模块问题, 但不影响使用
     - [ ] `setState() Called After Dispose()`

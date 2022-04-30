@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ski_app/model/community/media.dart';
 import 'package:ski_app/pages/communiy_page/enlarge_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ski_app/widget/animated_shimmer.dart';
 
 class MediaArea extends StatelessWidget {
   final String heroTag;
@@ -25,14 +26,12 @@ class MediaArea extends StatelessWidget {
                         null
                         ? medias.pictures![0] // FIXME 如果没有图片则没有这个组件
                         : "https://wx2.sinaimg.cn/orj360/00337rRAly1gthleo3pyrj60j60j6aan02.jpg",
-                    progressIndicatorBuilder: // TODO 更改加载动画 (微光)
-                        (context, url,
-                        downloadProgress) =>
-                        Center(
-                            child: CircularProgressIndicator(
-                                value:
-                                downloadProgress
-                                    .progress)),
+                    placeholder: (BuildContext context, String url){
+                      return AnimatedShimmer(
+                        height: 200,
+                        borderRadius: BorderRadius.circular(12),
+                      );
+                    },
                     fit: BoxFit.cover,
                   )),
             ),
