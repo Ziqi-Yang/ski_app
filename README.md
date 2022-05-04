@@ -21,10 +21,12 @@
 - [x] 修改 splash screen 图片
 - [x] 添加检测更新功能
 - [x] 历史数据界面加上加上添加/显示收藏
+- [x] shopping page 和 community 使用微光加载特效(`shimmer`)
+- [x] data details 界面视频播放器修改
 
 - [ ] 登陆界面交互, 以及忘记密码界面
-- [ ] shopping page 和 community 使用微光加载特效(`shimmer`)
-- [ ] data details 界面视频播放器修改
+- [ ] 图片放大界面仿twitter添加评论功能
+- [ ] 设置界面的美化问题
 - [ ] shopping page 把Swiper放在滑动列表里(此处由于商品少，可以考虑shrinkwrap?)
 - [ ] shopping page 点击商品跳转(在跳转前先显示正在加载)时候判断用户是否安装淘宝(判断打开链接失败)，未安装则提示安装
 - [ ] community page 里面的 tweet widget 加上点击图片放大的插件

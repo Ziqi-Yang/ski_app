@@ -107,10 +107,9 @@ class _CommunityPageState extends State<CommunityPage>
         return avatar;
       }),
       // FIXME change
-      title: const Icon(
-        Icons.downhill_skiing,
-        color: Colors.blue,
-        size: 30,
+      title: Image.asset(
+        "assets/images/logo.png",
+        width: 40,
       ),
       centerTitle: true,
       backgroundColor: Colors.white,

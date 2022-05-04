@@ -1,5 +1,4 @@
 import 'dart:async';
-// import 'dart:io' show sleep;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:ski_app/common.dart' show MyColors;
@@ -11,8 +10,9 @@ import 'package:ski_app/dao/fetch_latest_data_dao.dart';
 import 'package:route_animation_helper/route_animation_helper.dart' show AnimType;
 
 class FetchingDataPage extends StatefulWidget {
+  final bool showHeader;
   final String userId;
-  const FetchingDataPage({Key? key, this.userId = "null"}) : super(key: key);
+  const FetchingDataPage({Key? key, this.userId = "null", this.showHeader = true}) : super(key: key);
 
   @override
   State<FetchingDataPage> createState() => _FetchingDataPageState();
@@ -70,7 +70,15 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
       body: FractionallySizedBox(
         widthFactor: 1,
           child: Container(
-        color: MyColors.background,
+        decoration: const BoxDecoration(
+          // color: MyColors.background,
+          color: Colors.white,
+          image: DecorationImage(
+            image: AssetImage("assets/images/home_page/background.jpg",),
+            opacity: .5,
+            fit: BoxFit.cover
+          )
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: RefreshIndicator(
@@ -78,8 +86,8 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
             child: ListView(
               physics: const AlwaysScrollableScrollPhysics(),
               children: [
-                _Title,
-                const Divider(height: 10,color: Colors.grey, thickness: 2,),
+                if (widget.showHeader)
+                  _title,
                 _dataBoard(context)
               ],
             ),
@@ -89,27 +97,32 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
     );
   }
 
-  get _Title{
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const Text(
-            "获取最新数据",
-            style: TextStyle(fontSize: 40, color: Colors.black54, fontWeight: FontWeight.bold),
-          ),
-          const Spacer(),
-          const Text("下拉手动刷新", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),),
-          if (_isLoading)
-            Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                child: const SpinKitCircle(
-                  color: Colors.grey,
-                  size: 14,
-            ))
-        ],
-      )
+  get _title{
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const Text(
+                "获取最新数据",
+                style: TextStyle(fontSize: 40, color: Colors.black54, fontWeight: FontWeight.bold),
+              ),
+              const Spacer(),
+              const Text("下拉手动刷新", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),),
+              if (_isLoading)
+                Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    child: const SpinKitCircle(
+                      color: Colors.grey,
+                      size: 14,
+                ))
+            ],
+          )
+        ),
+        const Divider(height: 10,color: Colors.grey, thickness: 2,),
+      ],
     );
   }
 

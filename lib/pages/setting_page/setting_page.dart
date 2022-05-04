@@ -79,9 +79,16 @@ class _SettingPageState extends State<SettingPage>
       decoration: const BoxDecoration(
         color: MyColors.background,
       ),
-      child: Column(
-        children: [_simpleProfile(settingModel), _settings(context)],
-      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _simpleProfile(settingModel),
+            const SizedBox(height: 10,),
+            _settings(context),
+            const SizedBox(height: 20,)
+          ],
+        ),
+      )
     ));
   }
 
@@ -90,20 +97,22 @@ class _SettingPageState extends State<SettingPage>
     return FractionallySizedBox(
         widthFactor: 1,
         child: Container(
-          height: 350,
+          height: 355,
           decoration: const BoxDecoration(
               color: MyColors.blueAccent,
               image: DecorationImage(
                   opacity: .8,
-                  image: AssetImage("assets/images/setting_page/snow_1.png"),
+                  image: AssetImage("assets/images/snow_1.png"),
                   fit: BoxFit.cover)),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _avatar,
-              const SizedBox(
-                height: 20,
-              ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
               _information(model),
+              // const SizedBox(height: 5,)
             ],
           ),
         ));
