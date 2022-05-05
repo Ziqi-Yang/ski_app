@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ski_app/pages/home_page/fetching_data_page.dart';
+import 'package:ski_app/pages/home_page/latest_data.dart';
 import 'package:ski_app/pages/history_page.dart';
 import 'package:ski_app/widget/bubble_tab_indicator.dart';
 import 'package:ski_app/widget/common_widget.dart';
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage>
             },
             body: TabBarView(
               children: [
-                const FetchingDataPage(showHeader: false,),
+                const LatestData(),
                 Container(color: Colors.blue)
               ],
             ),

@@ -9,8 +9,13 @@
     "followers": 2
   },
   "fetchData": {
-    "data": ["13:47", "00:03:13", 90, 3.02],
-    "id": "12"
+    "data": {
+      "startTime": "13:47",
+      "lastTime": "13:50",
+      "score": 70,
+      "averageSpeed": 3.01
+    },
+    "id": "1234"
   },
   "history": {
     "data": {

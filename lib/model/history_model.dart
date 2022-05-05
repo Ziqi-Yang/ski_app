@@ -1,25 +1,16 @@
 class HistoryModel {
-  /// data:
-  /// {"2022-4-6": [Instance of 'HistoryGeneralCommonItem',..., Instance of 'HistoryGeneralCommonItem'],
-  /// "2022-4-5": [Instance of 'HistoryGeneralCommonItem', ...]}
+  final List<List<HistoryItem>> historyData;
 
-  final Map data;
-  final int? next;
+  HistoryModel({required this.historyData});
 
-  HistoryModel({required this.data,required this.next});
-
-  factory HistoryModel.fromJson(Map<String, dynamic> json){
-    Map<String, dynamic> daysData = {};
-    for (var day in  json["data"].keys){
-      var dayData = <HistoryItem>[];
-      for (var d in json["data"][day]){
-        dayData.add(HistoryItem.fromList(d));
-      }
-      daysData[day] = dayData;
+  factory HistoryModel.fromJson(List<dynamic> json){
+    List<List<HistoryItem>> historyData = [];
+    for (int day = 0; day < json.length; day ++){
+      var dayData = List<HistoryItem>.from(json[day].map((e) => HistoryItem.fromJson(e)));
+      historyData.add(dayData);
     }
     return HistoryModel(
-        data: daysData,
-      next: json["next"]
+        historyData: historyData
     );
   }
 }
@@ -27,16 +18,18 @@ class HistoryModel {
 
 class HistoryItem {
   final String startTime;
-  final String lastTime;
+  final String endTime;
   final int score;
   final double speed;
+  final bool isFav;
 
-  const HistoryItem({required this.startTime,required this.lastTime,
-   required this.score,required this.speed});
+  const HistoryItem({required this.startTime,required this.endTime,
+    required this.score, required this.isFav, required this.speed});
 
-  factory HistoryItem.fromList(List<dynamic> data){
+  factory HistoryItem.fromJson(Map<String, dynamic> data){
     return HistoryItem(
-        startTime: data[0], lastTime: data[1], score: data[2], speed: data[3]);
+        startTime: data["startTime"], endTime: data["endTime"], score: data["score"],
+        isFav: data["isFav"], speed: data["averageSpeed"]);
   }
 }
 

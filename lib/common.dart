@@ -7,8 +7,7 @@ class Api{
   static const settingPrefix = home + "setting/";
   static const settingNullUser = settingPrefix + "null";
 
-  static const historyGeneral = home + "history/general/";
-  static const historyGeneralNullUser = historyGeneral + "null/1";
+  static const history = "http://124.220.39.234:8080/test"; // FIXME
 
   static const fetchLatestData = home + "history/latest/";
 
@@ -22,6 +21,7 @@ class Api{
   static const shopIndex = shop + "index";
 
   static const latestVersion = home + "app/version/latest";
+
 }
 
 class MyColors {

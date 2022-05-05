@@ -1,37 +1,33 @@
 import 'dart:async';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
-import 'package:ski_app/common.dart' show MyColors;
-import 'package:ski_app/model/history_model.dart' show HistoryItem;
+import 'package:ski_app/model/latest_data_model.dart';
 import 'package:ski_app/pages/data_analysis_page.dart';
 import 'package:ski_app/widget/common_widget.dart';
 import 'package:timelines/timelines.dart';
-import 'package:ski_app/dao/fetch_latest_data_dao.dart';
+import 'package:ski_app/dao/latest_data_dao.dart';
 import 'package:route_animation_helper/route_animation_helper.dart' show AnimType;
 
-class FetchingDataPage extends StatefulWidget {
-  final bool showHeader;
+class LatestData extends StatefulWidget {
   final String userId;
-  const FetchingDataPage({Key? key, this.userId = "null", this.showHeader = true}) : super(key: key);
+  const LatestData({Key? key, this.userId = "null"}) : super(key: key);
 
   @override
-  State<FetchingDataPage> createState() => _FetchingDataPageState();
+  State<LatestData> createState() => _LatestDataState();
 }
 
-class _FetchingDataPageState extends State<FetchingDataPage> {
+class _LatestDataState extends State<LatestData> {
   late Timer _timer;
-  List<HistoryItem> _datas = [];
+  List<LatestDataModel> _datas = [];
   List<String> _ids = [];
   bool _isLoading = true;
-  List _reversedData = [];
+  List<LatestDataModel> _reversedData = [];
 
   Future<void> _fetchData() async {
     FetchLatestDataDao.fetch(userId: widget.userId).then((results){
       String id = results[0];
-      HistoryItem value = results[1];
+      LatestDataModel value = results[1];
 
       setState(() {
-        // TODO 只收集近一个小时的值, 不过这还要获取日期数据等等,还是之后再做吧
         if (_ids.isEmpty || id != _ids[_ids.length - 1]){
           _datas.add(value);
           _ids.add(id);
@@ -66,63 +62,25 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FractionallySizedBox(
-        widthFactor: 1,
-          child: Container(
+    return Container(
         decoration: const BoxDecoration(
-          // color: MyColors.background,
-          color: Colors.white,
-          image: DecorationImage(
-            image: AssetImage("assets/images/home_page/background.jpg",),
-            opacity: .5,
-            fit: BoxFit.cover
-          )
+            color: Colors.white,
+            image: DecorationImage(
+                image: AssetImage("assets/images/home_page/background.jpg",),
+                opacity: .5,
+                fit: BoxFit.cover
+            )
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          child: RefreshIndicator(
-            onRefresh: _fetchData,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
             child: ListView(
               physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
               children: [
-                if (widget.showHeader)
-                  _title,
                 _dataBoard(context)
               ],
-            ),
-          )
+            )
         )
-      ))
-    );
-  }
-
-  get _title{
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const Text(
-                "获取最新数据",
-                style: TextStyle(fontSize: 40, color: Colors.black54, fontWeight: FontWeight.bold),
-              ),
-              const Spacer(),
-              const Text("下拉手动刷新", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),),
-              if (_isLoading)
-                Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    child: const SpinKitCircle(
-                      color: Colors.grey,
-                      size: 14,
-                ))
-            ],
-          )
-        ),
-        const Divider(height: 10,color: Colors.grey, thickness: 2,),
-      ],
     );
   }
 
@@ -209,7 +167,7 @@ class _FetchingDataPageState extends State<FetchingDataPage> {
                     const TextSpan(text: "   "),
 
                     const WidgetSpan(child: Icon(Icons.bolt,color: Colors.grey, size: 18)),
-                    TextSpan(text: "${_reversedData[index].speed}"),
+                    TextSpan(text: "${_reversedData[index].averageSpeed}"),
                     const TextSpan(text: "   "),
                   ]
               ),
