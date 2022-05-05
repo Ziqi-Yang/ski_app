@@ -22,14 +22,17 @@ class HistoryItem {
   final int score;
   final double speed;
   final bool isFav;
+  final int dataId;
 
   const HistoryItem({required this.startTime,required this.endTime,
-    required this.score, required this.isFav, required this.speed});
+    required this.score, required this.isFav, required this.speed,
+    required this.dataId
+  });
 
-  factory HistoryItem.fromJson(Map<String, dynamic> data){
+  factory HistoryItem.fromJson(Map<String, dynamic> json){
     return HistoryItem(
-        startTime: data["startTime"], endTime: data["endTime"], score: data["score"],
-        isFav: data["isFav"], speed: data["averageSpeed"]);
+        startTime: json["startTime"], endTime: json["endTime"], score: json["score"],
+        isFav: json["isFav"], speed: json["averageSpeed"], dataId: json["dataId"]);
   }
 }
 

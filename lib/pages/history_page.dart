@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:ski_app/dao/history_dao.dart';
 import 'package:ski_app/model/history_model.dart';
@@ -57,8 +58,13 @@ class _HistoryPageState extends State<HistoryPage> {
                         height: double.infinity,
                         width: double.infinity,
                         alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(Colors.blue)));
+                        child: const SpinKitSquareCircle(
+                          color: Colors.blue,
+                          size: 50,
+                        )
+                        // child: CircularProgressIndicator(
+                        // valueColor: AlwaysStoppedAnimation(Colors.blue))
+                    );
                   },
                 );
               },
@@ -125,6 +131,20 @@ class ItemsDataSource extends CalendarDataSource {
 
   ItemsDataSource({required this.source, required this.userId});
 
+  final List<int> dataIds = [];
+  final List<Color> colorPalette = const [
+    // const Color(0xfff6b93b),
+    Color(0xffe55039),
+    Color(0xff4a69bd),
+    Color(0xff60a3bc),
+    Color(0xff78e08f),
+    Color(0xfffa983a),
+    Color(0xffeb2f06),
+    Color(0xff1e3799),
+    Color(0xff3c6382),
+    Color(0xff38ada9),
+  ];
+
 
   @override
   List<dynamic> get appointments => source;
@@ -157,18 +177,6 @@ class ItemsDataSource extends CalendarDataSource {
   Future<void> handleLoadMore(DateTime startDate, DateTime endDate) async {
     // startDate example: 2022-04-25 00:00:00.000
     List<Item> newDatas = [];
-    List<Color> colorPalette = [
-      // const Color(0xfff6b93b),
-      const Color(0xffe55039),
-      const Color(0xff4a69bd),
-      const Color(0xff60a3bc),
-      const Color(0xff78e08f),
-      const Color(0xfffa983a),
-      const Color(0xffeb2f06),
-      const Color(0xff1e3799),
-      const Color(0xff3c6382),
-      const Color(0xff38ada9),
-    ];
     DateFormat dateFormat =  DateFormat("yyyy-MM-dd");
     String startDateString = dateFormat.format(startDate);
     String endDateString = dateFormat.format(endDate);
@@ -184,7 +192,11 @@ class ItemsDataSource extends CalendarDataSource {
           DateTime startTime = _addTime(curDate, data.startTime);
           DateTime endTime = _addTime(curDate, data.endTime);
           Item tmpItem = Item(data.score, startTime, endTime, colorPalette[j % colorPalette.length], data.isFav);
+          if (dataIds.contains(data.dataId)){ //  FIXME 这里改为 dataIds (接口需要改下)
+            continue;
+          }
           newDatas.add(tmpItem);
+          dataIds.add(data.dataId);
         }
       }
     });
