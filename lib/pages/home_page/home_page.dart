@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage>
                 funcNotSupportDialog(context);
               },
               child: Container(
-                color: const Color(0xff56aaf7),
+                color: const Color(0xc156aaf7),
                 child: const Center(
                   child: Text(
                     "开始",

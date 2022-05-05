@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ski_app/dao/history_dao.dart';
+import 'package:ski_app/model/history_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -30,7 +33,9 @@ class _HistoryPageState extends State<HistoryPage> {
               textStyle: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)
             ),
             // cellBorderColor: Colors.black38,
-            dataSource: ItemsDataSource(source: _getDataSource()),
+            dataSource: ItemsDataSource(
+              source: [], // 无默认(初始)数据
+              userId: "100",),
             selectionDecoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(color: Colors.blueAccent, width: 2),
@@ -43,6 +48,20 @@ class _HistoryPageState extends State<HistoryPage> {
                 showAgenda: true
             ),
             appointmentBuilder: _itemBuilder,
+            loadMoreWidgetBuilder:
+              (BuildContext context, LoadMoreCallback loadMoreAppointments){
+                return FutureBuilder<void>(
+                  future: loadMoreAppointments(),
+                  builder: (context, snapShot) {
+                    return Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.blue)));
+                  },
+                );
+              },
           )
           )
         );
@@ -102,12 +121,10 @@ class _HistoryPageState extends State<HistoryPage> {
 
 class ItemsDataSource extends CalendarDataSource {
   List<Item> source;
-  ItemsDataSource({required this.source});
+  String userId;
 
-  // FIXME 加上load more功能
-  // 在_getDataSource区域应获取和当前时间在一块区域的数据, 这里获取之后的数据
-  // https://help.syncfusion.com/flutter/calendar/load-more
-  // https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/calendar/calendar_loadmore.dart
+  ItemsDataSource({required this.source, required this.userId});
+
 
   @override
   List<dynamic> get appointments => source;
@@ -131,6 +148,62 @@ class ItemsDataSource extends CalendarDataSource {
   Color getColor(int index) {
     return source[index].color;
   }
+
+  // FIXME 加上load more功能
+  // 在_getDataSource区域应获取和当前时间在一块区域的数据, 这里获取之后的数据
+  // https://help.syncfusion.com/flutter/calendar/load-more
+  // https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/calendar/calendar_loadmore.dart
+  @override
+  Future<void> handleLoadMore(DateTime startDate, DateTime endDate) async {
+    // startDate example: 2022-04-25 00:00:00.000
+    List<Item> newDatas = [];
+    List<Color> colorPalette = [
+      // const Color(0xfff6b93b),
+      const Color(0xffe55039),
+      const Color(0xff4a69bd),
+      const Color(0xff60a3bc),
+      const Color(0xff78e08f),
+      const Color(0xfffa983a),
+      const Color(0xffeb2f06),
+      const Color(0xff1e3799),
+      const Color(0xff3c6382),
+      const Color(0xff38ada9),
+    ];
+    DateFormat dateFormat =  DateFormat("yyyy-MM-dd");
+    String startDateString = dateFormat.format(startDate);
+    String endDateString = dateFormat.format(endDate);
+    DateTime curDate = startDate.add(const Duration(days: -1)); // 开始日期前一天
+
+    await HistoryDao.fetch(userId, startDateString, endDateString).then((value){
+      List<List<HistoryItem>> historyDatas = value.historyData;
+      for (int i = 0; i <  historyDatas.length; i ++){
+        curDate = curDate.add(const Duration(days: 1));
+        List<HistoryItem> dayDatas = historyDatas[i];
+        for (int j = 0; j < dayDatas.length; j ++){
+          HistoryItem data = dayDatas[j];
+          DateTime startTime = _addTime(curDate, data.startTime);
+          DateTime endTime = _addTime(curDate, data.endTime);
+          Item tmpItem = Item(data.score, startTime, endTime, colorPalette[j % colorPalette.length], data.isFav);
+          newDatas.add(tmpItem);
+        }
+      }
+    });
+    appointments.addAll(newDatas);
+    notifyListeners(CalendarDataSourceAction.add, newDatas);
+  }
+
+  DateTime _addTime(DateTime date, String timeStr){
+    // timeStr 09:01:04
+    DateFormat timeFormat = DateFormat("HH:mm:ss");
+    DateTime tmp = timeFormat.parse(timeStr);
+    DateTime newDate = date.add(Duration(
+      hours: tmp.hour,
+      minutes: tmp.minute,
+      seconds: tmp.second
+    ));
+    return newDate;
+  }
+
 }
 
 

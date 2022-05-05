@@ -52,6 +52,8 @@
     - [ ] `setState() Called After Dispose()`
 - [ ] setting page 有些时候会print出os connect error的错误, 但实际使用没影响
 - [ ] 第一次 登陆帐号界面会print overflow, 但实际使用没影响
+- [ ] 在`history`日历界面, 在有数据的事件格子，如果一直上拉，见到事件底部，可能会出现`Null check operator used on a null value`的错误，
+但这个错误个人认为是插件问题, 并且对实际使用没有影响
 
 
 ## 需求
