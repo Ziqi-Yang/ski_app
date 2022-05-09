@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 import 'package:ski_app/model/community/tweet.dart';
 import 'package:ski_app/pages/communiy_page/media_area.dart';
 import 'package:ski_app/pages/communiy_page/tweet_details.dart';
@@ -103,10 +104,18 @@ class _TweetWidgetState extends State<TweetWidget> {
                                     context: context, // retweet
                                     svgIconPath: _rtIconPath,
                                     num: tweet.retweet),
-                                _button(
-                                    context: context, // heart
-                                    svgIconPath: _favIconPath,
-                                    num: tweet.fav),
+                                Expanded(
+                                  child: LikeButton(
+                                    isLiked: tweet.hasFav,
+                                    likeBuilder: (bool isLiked) {
+                                      return Icon(
+                                        isLiked ? Icons.favorite: Icons.favorite_border,
+                                        color: isLiked ? Colors.redAccent: Colors.black54,
+                                        size: 22,
+                                      );
+                                    },
+                                  ),
+                                ),
                                 _button(
                                     context: context, // share
                                     svgIconPath:
@@ -126,6 +135,8 @@ class _TweetWidgetState extends State<TweetWidget> {
       {required BuildContext context,
       required String svgIconPath,
       required int? num}) {
+    Color defaultColor = Colors.black54;
+
     if (num != null) {
       return Expanded(
         child: Row(
@@ -133,6 +144,7 @@ class _TweetWidgetState extends State<TweetWidget> {
             SvgPicture.asset(
               svgIconPath,
               height: 22,
+              color: defaultColor,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -143,23 +155,15 @@ class _TweetWidgetState extends State<TweetWidget> {
       );
     } else {
       return Expanded(
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: SvgPicture.asset(
-            svgIconPath,
-            height: 22,
-          ),
+        child: SvgPicture.asset(
+          svgIconPath,
+          height: 22,
+          color: defaultColor,
         ),
       );
     }
   }
 
-  get _favIconPath {
-    Tweet tweet = widget.tweet;
-    return tweet.hasFav
-        ? "assets/images/community_page/heart_colored.svg"
-        : "assets/images/community_page/heart-outline.svg";
-  }
 
   get _rtIconPath {
     Tweet tweet = widget.tweet;

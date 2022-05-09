@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 import 'package:ski_app/model/community/media.dart';
 import 'package:ski_app/model/community/tweet.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -168,9 +169,15 @@ class _TweetDetailsState extends State<TweetDetails> {
                         context: context, // retweet
                         svgIconPath: _rtIconPath,
                       ),
-                      _button(
-                        context: context, // heart
-                        svgIconPath: _favIconPath,
+                      LikeButton(
+                        isLiked: widget.tweet.hasFav,
+                        likeBuilder: (bool isLiked) {
+                          return Icon(
+                            isLiked ? Icons.favorite: Icons.favorite_border,
+                            color: isLiked ? Colors.redAccent: Colors.black54,
+                            size: 24,
+                          );
+                        },
                       ),
                       _button(
                         context: context, // share
@@ -191,6 +198,7 @@ class _TweetDetailsState extends State<TweetDetails> {
     return SvgPicture.asset(
       svgIconPath,
       height: 24,
+      color: Colors.black54,
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ski_app/pages/home_page/devices.dart';
 import 'package:ski_app/pages/home_page/latest_data.dart';
-import 'package:ski_app/pages/history_page.dart';
 import 'package:ski_app/widget/bubble_tab_indicator.dart';
 import 'package:ski_app/widget/common_widget.dart';
 import 'package:ski_app/widget/wave_border.dart';
@@ -30,10 +30,10 @@ class _HomePageState extends State<HomePage>
                 _customSliverAppBar
               ];
             },
-            body: TabBarView(
+            body: const TabBarView(
               children: [
-                const LatestData(),
-                Container(color: Colors.blue)
+                LatestData(),
+                Devices()
               ],
             ),
           ),
@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage>
     return SliverAppBar(
       expandedHeight: 400,
       pinned: true,
+      stretch: true,
       flexibleSpace: FlexibleSpaceBar(
         expandedTitleScale: 1.25,
         titlePadding: EdgeInsets.zero,
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage>
             borderColor: const Color(0xff56aaf7),
             child: GestureDetector(
               onTap: (){
-                funcNotSupportDialog(context);
+                errorDialog(context, "蓝牙连接功能暂未实现\n运动数据将会时时展现在下方 最新数据 模块");
               },
               child: Container(
                 color: const Color(0xc156aaf7),

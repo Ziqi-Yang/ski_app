@@ -77,9 +77,9 @@ class _SettingPageState extends State<SettingPage>
     return Scaffold(
         body: Container(
       decoration: const BoxDecoration(
-        color: MyColors.background,
-      ),
-      child: SingleChildScrollView(
+        color: Colors.white,
+    ),
+    child: SingleChildScrollView(
         child: Column(
           children: [
             _simpleProfile(settingModel),
@@ -215,6 +215,10 @@ class _SettingPageState extends State<SettingPage>
       ),
     );
   }
+
+  // =================
+  // Settings
+  // =================
 
   _settings(
     BuildContext context,

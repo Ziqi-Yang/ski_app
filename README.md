@@ -23,17 +23,18 @@
 - [x] 历史数据界面加上加上添加/显示收藏
 - [x] shopping page 和 community 使用微光加载特效(`shimmer`)
 - [x] data details 界面视频播放器修改
+- [x] shopping page 把Swiper放在滑动列表里
+- [x] shopping page 点击商品跳转(在跳转前先显示正在加载)时候判断用户是否安装淘宝(判断打开链接失败)，未安装则提示安装
+- [x] community page 里面的 tweet widget 加上点击图片放大的插件
+- [x] 将有需要的地方使用cached_network_image, 比如setting page
 
 - [ ] 登陆界面交互, 以及忘记密码界面
+- [ ] 为点赞按钮添加动效
 - [ ] 图片放大界面仿twitter添加评论功能
-- [ ] 设置界面的美化问题
-- [ ] shopping page 把Swiper放在滑动列表里(此处由于商品少，可以考虑shrinkwrap?)
-- [ ] shopping page 点击商品跳转(在跳转前先显示正在加载)时候判断用户是否安装淘宝(判断打开链接失败)，未安装则提示安装
-- [ ] community page 里面的 tweet widget 加上点击图片放大的插件
+- [ ] 设置界面的美化
 - [ ] community page 使用 websocket 接口
 - [ ] data analysis 的 环形记录指示器 自定义 进度条首尾添加Icon组件(现在发现`syncfushion`有自定义组件的的这)
 - [ ] data analysis 的 circular indicator 中间 添加水波浪效果
-- [ ] 将有需要的地方使用cached_network_image, 比如setting page
 - [ ] 美化字体
 
 ## wished feature

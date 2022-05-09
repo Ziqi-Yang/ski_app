@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:like_button/like_button.dart';
 import 'package:ski_app/dao/history_dao.dart';
 import 'package:ski_app/model/history_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -99,30 +100,20 @@ class _HistoryPageState extends State<HistoryPage> {
                 ],
               ),
             )),
-            GestureDetector(
-              onTap: (){},
-              child: IconButton(
-                onPressed: (){},
-                icon: isFav ? const Icon(Icons.favorite) : const Icon(Icons.favorite_outline),
-                color: Colors.red,
-              ),
-            )
+            LikeButton(
+              isLiked: detail.isFav,
+              likeBuilder: (bool isLiked) {
+                return Icon(
+                  isLiked ? Icons.favorite: Icons.favorite_border,
+                  color: isLiked ? Colors.redAccent: Colors.black54,
+                  size: 24,
+                );
+              },
+            ),
           ],
         )    );
   }
 
-  List<Item> _getDataSource() {
-    final List<Item> items = <Item>[];
-    final DateTime today = DateTime.now();
-    final DateTime startTime =
-    DateTime(today.year, today.month, today.day, 9, 0, 0);
-    final DateTime endTime = startTime.add(const Duration(hours: 2));
-    items.add(
-        Item(70, startTime, endTime, Colors.blueAccent, false));
-    items.add(
-        Item(65, startTime, endTime, Colors.deepOrangeAccent, true));
-    return items;
-  }
 }
 
 class ItemsDataSource extends CalendarDataSource {
@@ -169,7 +160,7 @@ class ItemsDataSource extends CalendarDataSource {
     return source[index].color;
   }
 
-  // FIXME 加上load more功能
+  // Done 加上load more功能
   // 在_getDataSource区域应获取和当前时间在一块区域的数据, 这里获取之后的数据
   // https://help.syncfusion.com/flutter/calendar/load-more
   // https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/calendar/calendar_loadmore.dart
