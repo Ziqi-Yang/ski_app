@@ -3,7 +3,7 @@ import 'package:ski_app/pages/communiy_page/community_page.dart';
 import 'package:ski_app/pages/home_page/home_page.dart';
 import 'package:ski_app/pages/login/login.dart';
 import 'package:ski_app/pages/setting_page/setting_page.dart';
-import 'package:ski_app/pages/shopping_page.dart';
+import 'package:ski_app/pages/shopping_page/shopping_page.dart';
 
 class TabNavigator extends StatefulWidget {
   const TabNavigator({Key? key}) : super(key: key);

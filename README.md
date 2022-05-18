@@ -28,10 +28,17 @@
 - [x] community page 里面的 tweet widget 加上点击图片放大的插件
 - [x] 将有需要的地方使用cached_network_image, 比如setting page
 
-- [ ] 登陆界面交互, 以及忘记密码界面
+- [ ] 重新设计Setting Page, 应该只设置为一个头像(FlexibleArea)，下面是很多settings(setting 组件要重新设计)
+- [ ] Community Page 里面的user profile 可以借鉴[这](https://www.youtube.com/watch?v=ZfSiFtT0z_I)
+- [ ] 首页的开始滑雪Page与下面滑雪历史最好不要结合在一起,应该重新设计(比如说如果没有自动连接上可以展示历史数据，
+自动连接上了就 动画切换到开始滑雪(单纯一个按钮(或者最多加个跳转到最近一天之内数据的界面)，可以开始也可以暂停，不同动画效果，如背景和水波纹变化), 然后点击
+`scaffold`的返回按钮可以返回到历史滑雪)
+- [ ] 登陆界面交互,头像 以及忘记密码界面
+- [ ] 重新设置splash screen 适配 `android 12`
+- [ ] 设置界面需要更加专注于设置
+- [ ] 商店界面添加分类
 - [ ] 为点赞按钮添加动效
 - [ ] 图片放大界面仿twitter添加评论功能
-- [ ] 设置界面的美化
 - [ ] community page 使用 websocket 接口
 - [ ] data analysis 的 环形记录指示器 自定义 进度条首尾添加Icon组件(现在发现`syncfushion`有自定义组件的的这)
 - [ ] data analysis 的 circular indicator 中间 添加水波浪效果
@@ -75,3 +82,8 @@
 需要 `36x36`, `48x48`, `72x72`, `96x96`, `144x144` 比例的`png`图片
 
 顺便也提供下透明背景的其他地方有用
+
+## 开发状态
+
+5.16 为了模仿twitter用户信息界面动画花了不少时间，然后还没模仿出来, 摆烂到网上找个其他的界面了 (╬ ಠ益ಠ)  
+

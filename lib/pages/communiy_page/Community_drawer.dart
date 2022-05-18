@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ski_app/pages/communiy_page/user_profile/user_profile.dart';
+import 'package:ski_app/widget/common_widget.dart';
 
 class CommunityDrawer extends StatelessWidget {
   const CommunityDrawer({Key? key}) : super(key: key);
@@ -52,9 +54,12 @@ class CommunityDrawerHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(200)),
-            child: Image.network(avatar, width: 80,),
+          CommonWidget.ontapSlideRoute(context: context,
+            pageChild: UserProfile(isMyProfile: true), // FIXME
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(200)),
+              child: Image.network(avatar, width: 80,),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),

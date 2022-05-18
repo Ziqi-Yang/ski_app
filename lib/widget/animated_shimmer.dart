@@ -87,7 +87,7 @@ class _AnimatedShimmerState extends State<AnimatedShimmer>
         .animate(_animationController);
 
     // Trigger the animation only after build is rendered
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // Check if any delay is requested
       if (widget.delayInMilliSeconds.inMilliseconds == 0) {
         _animationController.forward();
