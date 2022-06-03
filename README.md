@@ -1,5 +1,7 @@
 # 闪动滑雪
 
+**前期开发不到位，有些界面设计也不满意，不打算填坑了，暂停开发此项目，将重新设计，新的仓库为[ski app re](https://github.com/Ziqi-Yang/ski_app_re)**
+
 ## Current Work
 
 ## Notice
